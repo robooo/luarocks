@@ -102,7 +102,7 @@ end
 -- @return true/false boolean: status of the command execution
 local function execute_bool(command, print_command, env_variables)
    command = test_env.execute_helper(command, print_command, env_variables)
-   
+
    local ok = os.execute(command)
    return ok == true or ok == 0
 end
@@ -259,7 +259,7 @@ local function hash_environment(path)
    elseif test_env.TEST_TARGET_OS == "osx" then
       return execute_output("find " .. path .. " -type f -exec stat -f \"%z %N\" {} \\; | md5")
    else
-      return execute_output(Q(test_env.testing_paths.win_tools .. "/find") .. " " .. Q(path) .. " -printf \"%s %p\r\n\" | " .. Q(test_env.testing_paths.win_tools .. "/md5sum"))
+      return execute_output(Q(test_env.testing_paths.win_tools .. "/find") .. " " .. Q(path) .. " -printf \"%s %p\" > temp_sum.txt ")
    end
 end
 
