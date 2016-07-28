@@ -41,24 +41,29 @@ end
 -- @param arg string: Unquoted argument.
 -- @return string: Quoted argument.
 local function Q(arg)
-   local drive_letter = "[%.a-zA-Z]?:?[\\/]"
-   assert(type(arg) == "string")
-   -- Quote DIR for Windows
-   if arg:match("^"..drive_letter)  then
-      arg = arg:gsub("/", "\\")
+   if test_env.TEST_TARGET_OS == "windows" then
+      local drive_letter = "[%.a-zA-Z]?:?[\\/]"
+      -- Quote DIR for Windows
+      if arg:match("^"..drive_letter)  then
+         arg = arg:gsub("/", "\\")
+      end
+      
+      if arg == "\\" then
+         return '\\' -- CHDIR needs special handling for root dir
+      end
+
+      return '"' .. arg .. '"'
+   else
+      return "'" .. arg:gsub("'", "'\\''") .. "'"
    end
-   if arg == "\\" then
-      return '\\' -- CHDIR needs special handling for root dir
-   end
-   return '"' .. arg .. '"'
 end
 
-function test_env.quiet(commad)
+function test_env.quiet(command)
    if not test_env.VERBOSE then
-      if test_env.TEST_TARGET_OS == "linux" or test_env.TEST_TARGET_OS == "osx" then
-         return commad .. " 1> /dev/null 2> /dev/null"
-      elseif test_env.TEST_TARGET_OS == "windows" then
-         return commad .. " 2> NUL 1> NUL"
+      if test_env.TEST_TARGET_OS == "windows" then
+         return command .. " 2> NUL 1> NUL"
+      else
+         return command .. " 1> /dev/null 2> /dev/null"
       end
    else
       return command
@@ -78,22 +83,23 @@ function test_env.execute_helper(command, print_command, env_variables)
    end
 
    if env_variables then
-      if test_env.TEST_TARGET_OS == "linux" or test_env.TEST_TARGET_OS == "osx" then
+      if test_env.TEST_TARGET_OS == "windows" then
+         for k,v in pairs(env_variables) do
+            final_command = final_command .. "set " .. k .. "=" .. v .. " & "
+         end
+         final_command = final_command:sub(1, -2) .. "& "
+      else
          final_command = "export "
          for k,v in pairs(env_variables) do
             final_command = final_command .. k .. "='" .. v .. "' "
          end
             -- remove last space and add ';' to separate exporting variables from command
             final_command = final_command:sub(1, -2) .. "; "
-      else
-         for k,v in pairs(env_variables) do
-            final_command = final_command .. "set " .. k .. "=" .. v .. " & "
-         end
-         final_command = final_command:sub(1, -2) .. "& "
       end
    end
 
    final_command = final_command .. command
+
    return final_command
 end
 
@@ -102,7 +108,7 @@ end
 -- @return true/false boolean: status of the command execution
 local function execute_bool(command, print_command, env_variables)
    command = test_env.execute_helper(command, print_command, env_variables)
-
+   
    local ok = os.execute(command)
    return ok == true or ok == 0
 end
@@ -258,8 +264,9 @@ local function hash_environment(path)
       return execute_output("find " .. path .. " -printf \"%s %p\n\" | md5sum")
    elseif test_env.TEST_TARGET_OS == "osx" then
       return execute_output("find " .. path .. " -type f -exec stat -f \"%z %N\" {} \\; | md5")
-   else
-      return execute_output(Q(test_env.testing_paths.win_tools .. "/find") .. " " .. Q(path) .. " -printf \"%s %p\" > temp_sum.txt ")
+   elseif test_env.TEST_TARGET_OS == "windows" then
+      return execute_output(Q(test_env.testing_paths.win_tools .. "/find") .. " " .. Q(path)
+         .. " -printf \"%s %p\" > temp_sum.txt && certUtil -hashfile temp_sum.txt && del temp_sum.txt")
    end
 end
 
@@ -283,7 +290,7 @@ local function create_env(testing_paths)
    env_variables.LUA_PATH = env_variables.LUA_PATH .. testing_paths.src_dir .. "/?.lua;"
    env_variables.LUA_CPATH = testing_paths.testing_tree .. "/lib/lua/" .. luaversion_short .. "/?.so;"
                            .. testing_paths.testing_sys_tree .. "/lib/lua/" .. luaversion_short .. "/?.so;"
-   env_variables.PATH = os.getenv("PATH") .. ":" .. testing_paths.testing_tree .. "/bin:" .. testing_paths.testing_sys_tree .. "/bin"
+   env_variables.PATH = os.getenv("PATH") .. ";" .. testing_paths.testing_tree .. "/bin;" .. testing_paths.testing_sys_tree .. "/bin;"
 
    return env_variables
 end
@@ -303,10 +310,15 @@ local function make_run_function(cmd_name, exec_function, with_coverage, do_prin
    local cmd_prefix = Q(test_env.testing_paths.lua) .. " "
 
    if with_coverage then
-      cmd_prefix = cmd_prefix .. "-e \"require('luacov.runner')('" .. test_env.testing_paths.testing_dir .. "/luacov.config')\"' "
+      cmd_prefix = cmd_prefix .. "-e \"require('luacov.runner')('" .. test_env.testing_paths.testing_dir .. "/luacov.config')\" "
    end
 
-   cmd_prefix = cmd_prefix .. Q(test_env.testing_paths.testing_lrprefix .. "/" .. cmd_name .. ".lua") .. " "
+   
+   if test_env.TEST_TARGET_OS == "windows" then
+      cmd_prefix = cmd_prefix .. Q(test_env.testing_paths.testing_lrprefix .. "/" .. cmd_name .. ".lua") .. " "
+   else
+      cmd_prefix = cmd_prefix .. test_env.testing_paths.src_dir .. "/bin/" .. cmd_name .. " "
+   end
 
    return function(cmd, new_vars)
       local temp_vars = {}
@@ -335,6 +347,15 @@ local function make_run_functions()
    }
 end
 
+local function copy_dir(source_path, target_path)
+   local testing_paths = test_env.testing_paths
+   if test_env.TEST_TARGET_OS == "windows" then
+      execute_bool(testing_paths.win_tools .. "/cp -R ".. source_path .. "/. " .. target_path)
+   else
+      execute_bool("cp -a ".. source_path .. "/. " .. target_path)
+   end
+end
+
 --- Rebuild environment.
 -- Remove old installed rocks and install new ones,
 -- updating manifests and tree copies.
@@ -357,20 +378,15 @@ local function build_environment(rocks, env_variables)
          test_env.run.luarocks_nocov("build --tree=" .. Q(testing_paths.testing_sys_tree) .. " " .. rock .. "", env_variables)
          test_env.run.luarocks_nocov("pack --tree=" .. Q(testing_paths.testing_sys_tree) .. " " .. rock, env_variables)
          if test_env.TEST_TARGET_OS == "windows" then
-            execute_bool(testing_paths.win_tools .. "/mv " .. testing_paths.testing_server .. "/" .. rock .. "-*.rock " .. testing_paths.testing_cache)
+            execute_bool(testing_paths.win_tools .. "/mv " .. rock .. "-*.rock " .. testing_paths.testing_cache)
          else
             execute_bool("mv " .. rock .. "-*.rock " .. testing_paths.testing_cache)
          end
       end
    end
-
-   if test_env.TEST_TARGET_OS == "windows" then
-      execute_bool(testing_paths.win_tools .. "/cp -R " .. testing_paths.testing_tree .. "/. " .. testing_paths.testing_tree_copy)
-      execute_bool(testing_paths.win_tools .. "/cp -R " .. testing_paths.testing_sys_tree .. "/. " .. testing_paths.testing_sys_tree_copy)   
-   else
-      execute_bool("cp -a " .. testing_paths.testing_tree .. "/. " .. testing_paths.testing_tree_copy)
-      execute_bool("cp -a " .. testing_paths.testing_sys_tree .. "/. " .. testing_paths.testing_sys_tree_copy)
-   end
+   
+   copy_dir(testing_paths.testing_tree, testing_paths.testing_tree_copy)
+   copy_dir(testing_paths.testing_sys_tree, testing_paths.testing_sys_tree_copy)
 end
 
 --- Reset testing environment
@@ -380,14 +396,13 @@ local function reset_environment(testing_paths, md5sums)
 
    if testing_tree_md5 ~= md5sums.testing_tree_copy_md5 then
       test_env.remove_dir(testing_paths.testing_tree)
-      execute_bool("cp -a " .. testing_paths.testing_tree_copy .. "/. " .. testing_paths.testing_tree)
+      copy_dir(testing_paths.testing_tree_copy, testing_paths.testing_tree)
    end
 
    if testing_sys_tree_md5 ~= md5sums.testing_sys_tree_copy_md5 then
       test_env.remove_dir(testing_paths.testing_sys_tree)
-      execute_bool("cp -a " .. testing_paths.testing_sys_tree_copy .. "/. " .. testing_paths.testing_sys_tree)
+      copy_dir(testing_paths.testing_sys_tree_copy, testing_paths.testing_sys_tree)
    end
-
    print("\n[ENVIRONMENT RESET]")
 end
 
@@ -398,10 +413,10 @@ local function create_paths(luaversion_full)
    testing_paths.luadir = cfg.variables.LUA_BINDIR:gsub("/bin/?$", "")
    testing_paths.lua = cfg.variables.LUA_BINDIR .. "/" .. cfg.lua_interpreter
 
-   testing_paths.luarocks_tmp = "/tmp/luarocks_testing" --windows?
+   testing_paths.luarocks_tmp = "/tmp/luarocks_testing"
 
    testing_paths.luarocks_dir = lfs.currentdir()
-   
+
    if test_env.TEST_TARGET_OS == "windows" then
       testing_paths.luarocks_dir = testing_paths.luarocks_dir:gsub("\\","/")
    end
@@ -587,11 +602,11 @@ end
 --- Install luarocks into testing prefix.
 local function install_luarocks(install_env_vars)
    local testing_paths = test_env.testing_paths
-   -- Configure LuaRocks testing environment
    title("Installing LuaRocks")
    if test_env.TEST_TARGET_OS == "windows" then
-      assert(execute_bool("install.bat /LUA " .. testing_paths.luadir .. " /P " .. testing_paths.testing_lrprefix .. " /FORCECONFIG /NOREG /NOADMIN /F /Q /SELFCONTAINED", false, install_env_vars))
-      assert(execute_bool(testing_paths.win_tools .. "/cp " .. testing_paths.testing_lrprefix .. "/lua/luarocks/site_config* " .. testing_paths.src_dir .. "/luarocks"))
+      assert(execute_bool("install.bat /LUA " .. testing_paths.luadir .. " /P " .. testing_paths.testing_lrprefix .. " /NOREG /NOADMIN /F /Q /CONFIG " .. testing_paths.testing_dir, false, install_env_vars))
+      assert(execute_bool(testing_paths.win_tools .. "/cp " .. testing_paths.testing_lrprefix .. "/lua/luarocks/site_config* "
+         .. testing_paths.src_dir .. "/luarocks"))
    else
       local configure_cmd = "./configure --with-lua=" .. testing_paths.luadir .. " --prefix=" .. testing_paths.testing_lrprefix
       assert(execute_bool(configure_cmd, false, install_env_vars))
@@ -637,8 +652,7 @@ function test_env.main()
       table.insert(urls, "/luaposix-33.2.1-1.src.rock")
       table.insert(urls, "/md5-1.2-1.src.rock")
       table.insert(urls, "/lzlib-0.4.1.53-1.src.rock")
-      table.insert(urls, "/luazip-1.2.4-1.rockspec")
-      rocks = {"luafilesystem", "luasocket", "luaposix", "md5", "lzlib", "luazip"}
+      rocks = {"luafilesystem", "luasocket", "luaposix", "md5", "lzlib"}
 
       if test_env.LUA_V ~= "5.1" then
          table.insert(urls, "/luabitop-1.0.2-1.rockspec")
