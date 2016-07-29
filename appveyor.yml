@@ -25,6 +25,4 @@ build_script:
 - call .appveyor\build.bat
 
 test_script:
-- echo "Testing..."
-- cd test
-- call testing.bat
+- luarocks install busted
