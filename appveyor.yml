@@ -29,4 +29,4 @@ test_script:
 - luarocks install luacov
 - luarocks install luacov-coveralls
 - dir
-- busted -t b_show --verbose
+- busted --helper=test/test_environment.lua -t b_show --verbose
