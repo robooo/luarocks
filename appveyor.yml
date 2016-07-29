@@ -28,5 +28,4 @@ test_script:
 - luarocks install busted
 - luarocks install luacov
 - luarocks install luacov-coveralls
-- dir
-- busted --helper=test/test_environment.lua -t b_show --verbose
+- busted --helper=C:\projects\luarocks\test\test_environment.lua -t b_show --verbose
