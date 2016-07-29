@@ -26,3 +26,6 @@ build_script:
 
 test_script:
 - luarocks install busted
+- luarocks install luacov
+- luarocks install luacov-coveralls
+- busted -t b_show --verbose
