@@ -30,4 +30,4 @@ before_test:
 - luarocks install luacov-coveralls
 
 test_script:
-- busted --lpath=./?.lua --helper=C:\projects\luarocks\test\test_environment.lua -t b_show --verbose
+- call busted --lpath=./?.lua --helper=C:\projects\luarocks\test\test_environment.lua -t b_show --verbose
