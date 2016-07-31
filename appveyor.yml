@@ -25,9 +25,9 @@ build_script:
 - call .appveyor\build.bat
 
 before_test:
-- luarocks install busted
-- luarocks install luacov
-- luarocks install luacov-coveralls
+- call luarocks install busted
+- call luarocks install luacov
+- call luarocks install luacov-coveralls
 
 test_script:
-- call busted --lpath=./?.lua --helper=C:\projects\luarocks\test\test_environment.lua -t b_show --verbose
+- call busted --lpath="./?.lua" --helper=C:\projects\luarocks\test\test_environment.lua -t b_show --verbose
