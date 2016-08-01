@@ -22,7 +22,7 @@ ARGUMENTS
 
 local function help()
    print(help_message)
-   os.exit(1)
+   -- os.exit(1)
 end
 
 local function title(str)
