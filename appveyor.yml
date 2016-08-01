@@ -31,5 +31,5 @@ before_test:
 
 test_script:
 
-- busted os=windows --helper="test/test_environment.lua" --verbose
+- "busted -Xhelper os=windows --helper=test/test_environment.lua --verbose"
 # --helper="C:\projects\luarocks\test\test_environment.lua" --lpath="./?.lua"
