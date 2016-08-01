@@ -249,7 +249,7 @@ local function download_rocks(urls, save_path)
       if not exists(save_path .. url) then
          if test_env.TEST_TARGET_OS == "windows" then
             print("WINDOWS WGET")
-            execute_bool(test_env.testing_paths.win_tools .. "/wget -cP --no-check-certificate " .. save_path .. " " .. luarocks_repo .. url)
+            execute_bool(test_env.testing_paths.win_tools .. "/wget -cP " .. save_path .. " " .. luarocks_repo .. url)
          else
             print("WINDOWS WGET")
             execute_bool("wget -cP " .. save_path .. " " .. luarocks_repo .. url)
@@ -458,11 +458,11 @@ end
 --- Helper function to unload luarocks modules from global table package.loaded
 -- Needed to load our local (testing) version of LuaRocks
 function test_env.unload_luarocks()
-   for modname, _ in pairs(package.loaded) do
-      if modname:match("^luarocks%.") then
-         package.loaded[modname] = nil
-      end
-   end
+   -- for modname, _ in pairs(package.loaded) do
+   --    if modname:match("^luarocks%.") then
+   --       package.loaded[modname] = nil
+   --    end
+   -- end
 end
 
 --- Function for initially setup of environment, variables, md5sums for spec files
