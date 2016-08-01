@@ -458,11 +458,11 @@ end
 --- Helper function to unload luarocks modules from global table package.loaded
 -- Needed to load our local (testing) version of LuaRocks
 function test_env.unload_luarocks()
-   -- for modname, _ in pairs(package.loaded) do
-   --    if modname:match("^luarocks%.") then
-   --       package.loaded[modname] = nil
-   --    end
-   -- end
+   for modname, _ in pairs(package.loaded) do
+      if modname:match("^luarocks%.") then
+         package.loaded[modname] = nil
+      end
+   end
 end
 
 --- Function for initially setup of environment, variables, md5sums for spec files
@@ -623,7 +623,7 @@ local function install_luarocks(install_env_vars)
    title("Installing LuaRocks")
    if test_env.TEST_TARGET_OS == "windows" then
       print("BEFORE INSTALL.BAT")
-      assert(execute_bool("install.bat /LUA " .. testing_paths.luadir .. " /P " .. testing_paths.testing_lrprefix .. " /NOREG /NOADMIN /F /Q /CONFIG " .. testing_paths.testing_dir, false, install_env_vars))
+      assert(execute_bool("install.bat /LUA " .. testing_paths.luadir .. " /P " .. testing_paths.testing_lrprefix .. " /NOREG /NOADMIN /F /Q /CONFIG " .. testing_paths.testing_dir .. " --verbose", false, install_env_vars))
       print("AFTER INSTALL.BAT")
       assert(execute_bool(testing_paths.win_tools .. "/cp " .. testing_paths.testing_lrprefix .. "/lua/luarocks/site_config* "
          .. testing_paths.src_dir .. "/luarocks"))
