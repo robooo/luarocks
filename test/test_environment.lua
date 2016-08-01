@@ -140,6 +140,11 @@ function test_env.set_args()
    test_env.TYPE_TEST_ENV = "minimal"
    test_env.RESET_ENV = true
 
+   if arg[1] == "appveyor" then
+      print("HERE ")
+      os.exit(1)
+   end
+
    for _, argument in ipairs(arg) do
       print("ARGS " .. argument)
       if argument:find("^env=") then
@@ -165,6 +170,7 @@ function test_env.set_args()
       if execute_bool("sw_vers") then 
          test_env.TEST_TARGET_OS = "osx"
       elseif execute_bool("uname -s") then
+         print(execute_output("uname -s"))
          test_env.TEST_TARGET_OS = "linux"
       else
          test_env.TEST_TARGET_OS = "windows"
