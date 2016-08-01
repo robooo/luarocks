@@ -241,7 +241,11 @@ local function download_rocks(urls, save_path)
    for _, url in ipairs(urls) do
       -- check if already downloaded
       if not exists(save_path .. url) then
-         execute_bool("wget -cP " .. save_path .. " " .. luarocks_repo .. url)
+         if test_env.TEST_TARGET_OS == "windows" then
+            execute_bool(test_env.testing_paths.win_tools .. "/wget -cP " .. save_path .. " " .. luarocks_repo .. url)
+         else
+            execute_bool("wget -cP " .. save_path .. " " .. luarocks_repo .. url)
+         end
          make_manifest = true 
       end
    end
