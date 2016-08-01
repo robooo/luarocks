@@ -91,6 +91,7 @@ function test_env.execute_helper(command, print_command, env_variables)
       if test_env.TEST_TARGET_OS == "windows" then
          for k,v in pairs(env_variables) do
             final_command = final_command .. "set " .. k .. "=" .. v .. " & "
+            print(final_command)
          end
          final_command = final_command:sub(1, -2) .. "& "
       else
@@ -104,7 +105,7 @@ function test_env.execute_helper(command, print_command, env_variables)
    end
 
    final_command = final_command .. command
-print(final_command)
+
    return final_command
 end
 
@@ -485,7 +486,7 @@ function test_env.setup_specs(extra_rocks)
       print("BEFORE MAIN")
 
       test_env.main()
-      -- package.path = test_env.env_variables.LUA_PATH
+      package.path = test_env.env_variables.LUA_PATH
 
       test_env.platform = execute_output(test_env.testing_paths.lua .. " -e \"print(require('luarocks.cfg').arch)\"", false, test_env.env_variables)
       test_env.md5sums = create_md5sums(test_env.testing_paths)
