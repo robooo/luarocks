@@ -471,6 +471,7 @@ function test_env.setup_specs(extra_rocks)
             execute_bool("ssh-keyscan localhost >> ~/.ssh/known_hosts")
          end
       end
+      print("BEFORE MAIN")
 
       test_env.main()
       -- package.path = test_env.env_variables.LUA_PATH
@@ -641,6 +642,7 @@ function test_env.main()
 
    lfs.mkdir(testing_paths.testing_cache)
    lfs.mkdir(testing_paths.luarocks_tmp)
+      print("BEFORE CREATE CONFIGS")
 
    create_configs()
 
@@ -649,7 +651,7 @@ function test_env.main()
       LUA_PATH,
       LUA_CPATH
    }
-
+print("BEFORE install_luarocks")
    install_luarocks(install_env_vars)
 
    -- Preparation of rocks for building environment
