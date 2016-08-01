@@ -169,8 +169,7 @@ function test_env.set_args()
 
       if execute_bool("sw_vers") then 
          test_env.TEST_TARGET_OS = "osx"
-      elseif execute_bool("uname -s") then
-         print(execute_output("uname -s"))
+      elseif execute_output("uname -s") == "Linux" then
          test_env.TEST_TARGET_OS = "linux"
       else
          test_env.TEST_TARGET_OS = "windows"
