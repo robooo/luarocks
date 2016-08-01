@@ -172,6 +172,7 @@ function test_env.set_args()
       elseif execute_output("uname -s") == "Linux" then
          test_env.TEST_TARGET_OS = "linux"
       else
+         print("WINDOWS HERE!")
          test_env.TEST_TARGET_OS = "windows"
       end
    end
