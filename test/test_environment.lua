@@ -99,7 +99,7 @@ function test_env.execute_helper(command, print_command, env_variables)
    end
 
    final_command = final_command .. command
-
+print(final_command)
    return final_command
 end
 
@@ -242,8 +242,10 @@ local function download_rocks(urls, save_path)
       -- check if already downloaded
       if not exists(save_path .. url) then
          if test_env.TEST_TARGET_OS == "windows" then
+            print("WINDOWS WGET")
             execute_bool(test_env.testing_paths.win_tools .. "/wget -cP --no-check-certificate " .. save_path .. " " .. luarocks_repo .. url)
          else
+            print("WINDOWS WGET")
             execute_bool("wget -cP " .. save_path .. " " .. luarocks_repo .. url)
          end
          make_manifest = true 
@@ -614,6 +616,7 @@ local function install_luarocks(install_env_vars)
    title("Installing LuaRocks")
    if test_env.TEST_TARGET_OS == "windows" then
       assert(execute_bool("install.bat /LUA " .. testing_paths.luadir .. " /P " .. testing_paths.testing_lrprefix .. " /NOREG /NOADMIN /F /Q /CONFIG " .. testing_paths.testing_dir, false, install_env_vars))
+      print("AFTER INSTALL.BAT")
       assert(execute_bool(testing_paths.win_tools .. "/cp " .. testing_paths.testing_lrprefix .. "/lua/luarocks/site_config* "
          .. testing_paths.src_dir .. "/luarocks"))
    else
