@@ -141,6 +141,7 @@ function test_env.set_args()
    test_env.RESET_ENV = true
 
    for _, argument in ipairs(arg) do
+      print("ARGS " .. argument)
       if argument:find("^env=") then
          test_env.TYPE_TEST_ENV = argument:match("^env=(.*)$")
       elseif argument == "noreset" then
