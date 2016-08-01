@@ -30,5 +30,5 @@ before_test:
 - luarocks install luacov-coveralls
 
 test_script:
-- busted os=windows --helper="C:\projects\luarocks\test\test_environment.lua"
+- busted os=windows --helper="C:\projects\luarocks\test\test_environment.lua" --directory="C:\projects\luarocks\"
 # --helper="C:\projects\luarocks\test\test_environment.lua" --lpath="./?.lua" --verbose
