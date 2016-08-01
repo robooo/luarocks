@@ -235,14 +235,14 @@ end
 -- @param save_path string: path to directory, where to download rocks/rockspecs
 -- @return make_manifest boolean: true if new rocks downloaded
 local function download_rocks(urls, save_path)
-   local luarocks_repo = "https://luarocks.org"   
+   local luarocks_repo = "https://www.luarocks.org"   
    local make_manifest = false
 
    for _, url in ipairs(urls) do
       -- check if already downloaded
       if not exists(save_path .. url) then
          if test_env.TEST_TARGET_OS == "windows" then
-            execute_bool(test_env.testing_paths.win_tools .. "/wget -cP --no-check-certificate " .. save_path .. " " .. luarocks_repo .. url)
+            execute_bool(test_env.testing_paths.win_tools .. "/wget -cP " .. save_path .. " " .. luarocks_repo .. url)
          else
             execute_bool("wget -cP " .. save_path .. " " .. luarocks_repo .. url)
          end
