@@ -22,13 +22,13 @@ ARGUMENTS
 
 local function help()
    print(help_message)
-   -- os.exit(1)
+   os.exit(1)
 end
 
--- function print(...)
---    io.stderr:write(...)
---    io.stderr:write("\n")
--- end
+function print(...)
+   io.stderr:write(...)
+   io.stderr:write("\n")
+end
 
 local function title(str)
    print()
@@ -392,7 +392,7 @@ local function build_environment(rocks, env_variables)
    test_env.run.luarocks_admin_nocov("make_manifest " .. testing_paths.testing_cache)
 
    for _, rock in ipairs(rocks) do
-      if not test_env.run.luarocks_nocov("install --only-server=" .. testing_paths.testing_cache .. " --tree=" .. testing_paths.testing_sys_tree .. " " .. rock, env_variables) then
+      if not test_env.run.luarocks_nocov("install --only-server=" .. testing_paths.testing_cache .. " --tree=" .. testing_paths.testing_sys_tree .. " " .. Q(rock), env_variables) then
          test_env.run.luarocks_nocov("build --tree=" .. Q(testing_paths.testing_sys_tree) .. " " .. Q(rock) .. "", env_variables)
          test_env.run.luarocks_nocov("pack --tree=" .. Q(testing_paths.testing_sys_tree) .. " " .. Q(rock), env_variables)
          if test_env.TEST_TARGET_OS == "windows" then
