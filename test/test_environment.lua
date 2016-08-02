@@ -393,8 +393,8 @@ local function build_environment(rocks, env_variables)
 
    for _, rock in ipairs(rocks) do
       if not test_env.run.luarocks_nocov("install --only-server=" .. testing_paths.testing_cache .. " --tree=" .. testing_paths.testing_sys_tree .. " " .. rock, env_variables) then
-         test_env.run.luarocks_nocov("build --tree=" .. Q(testing_paths.testing_sys_tree) .. " " .. rock .. "", env_variables)
-         test_env.run.luarocks_nocov("pack --tree=" .. Q(testing_paths.testing_sys_tree) .. " " .. rock, env_variables)
+         test_env.run.luarocks_nocov("build --tree=" .. Q(testing_paths.testing_sys_tree) .. " " .. Q(rock) .. "", env_variables)
+         test_env.run.luarocks_nocov("pack --tree=" .. Q(testing_paths.testing_sys_tree) .. " " .. Q(rock), env_variables)
          if test_env.TEST_TARGET_OS == "windows" then
             execute_bool(testing_paths.win_tools .. "/mv " .. rock .. "-*.rock " .. testing_paths.testing_cache)
          else
