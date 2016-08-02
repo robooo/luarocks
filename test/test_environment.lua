@@ -90,9 +90,9 @@ function test_env.execute_helper(command, print_command, env_variables)
    if env_variables then
       if test_env.TEST_TARGET_OS == "windows" then
          for k,v in pairs(env_variables) do
-            final_command = final_command .. "set " .. k .. "=" .. Q(v) .. " & "
+            final_command = final_command .. "set " .. k .. "=" .. Q(v) .. "&"
          end
-         final_command = final_command:sub(1, -2) .. "& "
+         final_command = final_command:sub(1, -2) .. "&"
       else
          final_command = "export "
          for k,v in pairs(env_variables) do
