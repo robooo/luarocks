@@ -38,7 +38,7 @@ describe("LuaRocks add tests #blackbox #b_add", function()
       end)
       
       it("LuaRocks-admin add, split server url", function()
-         assert.is_false(run.luarocks_admin_bool("--server=\"localhost@/tmp/luarocks_testing\" add " .. testing_paths.testing_server .. "luasocket-3.0rc1-1.src.rock"))
+         assert.is_false(run.luarocks_admin_bool("--server=\"localhost@/tmp/luarocks_testing\" add " .. testing_paths.testing_server .. "/luasocket-3.0rc1-1.src.rock"))
       end)
    end)
 end)
