@@ -35,6 +35,6 @@ test_script:
 # --helper="C:\projects\luarocks\test\test_environment.lua" --lpath="./?.lua"
 # 
 after_test:
-- luacov-coveralls -v -e c:\lua -c /test/luacov.config
+- luacov-coveralls -v -e c:\lua -c test/luacov.config
 - luacov -c C:/projects/luarocks/test/luacov.config
 - grep "Summary" -B1 -A1000 C:/projects/luarocks/test/luacov.report.out
