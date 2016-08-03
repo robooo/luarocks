@@ -30,11 +30,11 @@ before_test:
 - luarocks install luacov-coveralls
 
 test_script:
-- busted --lpath=.//?.lua
+- busted --lpath=.//?.lua --coverage
 # --helper=test/test_environment.lua -Xhelper os=windows --lpath=.//?.lua --verbose
 # --helper="C:\projects\luarocks\test\test_environment.lua" --lpath="./?.lua"
 # 
 after_test:
-- luacov-coveralls
+- luacov-coveralls -v -e c:\lua -c C:/projects/luarocks/spec/.luacov
 - luacov -c C:/projects/luarocks/test/luacov.config
 - grep "Summary" -B1 -A1000 C:/projects/luarocks/test/luacov.report.out
