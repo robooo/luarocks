@@ -430,11 +430,10 @@ local function create_paths(luaversion_full)
    local testing_paths = {}
    testing_paths.luadir = cfg.variables.LUA_BINDIR:gsub("/bin/?$", "")
    
-
    if test_env.TEST_TARGET_OS == "windows" then
       testing_paths.luarocks_tmp = os.getenv("TEMP")
-      testing_paths.lua = cfg.variables.LUA_BINDIR .. cfg.lua_interpreter
-   else   
+      testing_paths.lua = cfg.variables.LUA_BINDIR:gsub("^%l", string.upper) .. cfg.lua_interpreter
+   else
       testing_paths.luarocks_tmp = "/tmp/luarocks_testing"
       testing_paths.lua = cfg.variables.LUA_BINDIR .. "/" .. cfg.lua_interpreter
    end
