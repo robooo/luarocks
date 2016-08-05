@@ -25,6 +25,7 @@ build_script:
 - call .appveyor\build.bat
 
 before_test:
+- if "%LUA_VER:~0,3%"=="5.1" (luarocks show bit32 || luarocks install bit32)
 - luarocks install busted
 - luarocks install luacov
 - luarocks install luacov-coveralls
