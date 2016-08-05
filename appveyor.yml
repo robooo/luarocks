@@ -21,11 +21,10 @@ install:
 # Setup Lua development/build environment
 - call .appveyor\install.bat
 
-# build_script:
-
+build_script:
+- call .appveyor\build.bat
 
 before_test:
-- call .appveyor\build.bat
 - luarocks install busted
 
 test_script:
