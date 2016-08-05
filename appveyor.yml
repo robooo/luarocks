@@ -30,7 +30,7 @@ before_test:
 - luarocks install luacov-coveralls
 
 test_script:
-- busted --lpath=.//?.lua --coverage
+- busted --lpath=.//?.lua
 # --helper=test/test_environment.lua -Xhelper os=windows --lpath=.//?.lua --verbose
 # --helper="C:\projects\luarocks\test\test_environment.lua" --lpath="./?.lua"
 # 
