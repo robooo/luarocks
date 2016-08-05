@@ -62,22 +62,22 @@ describe("LuaRocks build tests #blackbox #b_build", function()
       
       it("LuaRocks build lpeg branch=master", function()
          assert.is_true(run.luarocks_bool("build --branch=master lpeg"))
-         assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/lpeg-0.12-1.rockspec"))
+         assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec"))
       end)
       
       it("LuaRocks build lpeg deps-mode=123", function()
          assert.is_false(run.luarocks_bool("build --deps-mode=123 lpeg"))
-         assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/lpeg-0.12-1.rockspec"))
+         assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec"))
       end)
       
       it("LuaRocks build lpeg only-sources example", function()
          assert.is_true(run.luarocks_bool("build --only-sources=\"http://example.com\" lpeg"))
-         assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/lpeg-0.12-1.rockspec"))
+         assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec"))
       end)
       
       it("LuaRocks build lpeg with empty tree", function()
          assert.is_false(run.luarocks_bool("build --tree=\"\" lpeg"))
-         assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/lpeg-0.12-1.rockspec"))
+         assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec"))
       end)
    end)
 
