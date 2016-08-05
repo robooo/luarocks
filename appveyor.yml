@@ -15,7 +15,8 @@ environment:
 init:
 # Setup Lua development/build environment
 # Make VS 2015 command line tools available
-- call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
+# - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
+ - if "%platform%" EQU "x64" ( for %%a in (2008 2010 MinGW) do ( if "%Configuration%"=="%%a" (echo "Skipping unsupported configuration" && exit /b 1 ) ) )
 
 install:
 # Setup Lua development/build environment
@@ -24,10 +25,10 @@ install:
 build_script:
 - call .appveyor\build.bat
 
-# before_test:
+before_test:
+- luarocks install busted
 
 test_script:
-- luarocks install busted
 - busted --lpath=.//?.lua
 # --helper=test/test_environment.lua -Xhelper os=windows --lpath=.//?.lua --verbose
 # --helper="C:\projects\luarocks\test\test_environment.lua" --lpath="./?.lua"
