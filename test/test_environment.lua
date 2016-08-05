@@ -25,10 +25,10 @@ local function help()
    os.exit(1)
 end
 
--- function print(...)
---    io.stderr:write(...)
---    io.stderr:write("\n")
--- end
+function print(...)
+   io.stderr:write(...)
+   io.stderr:write("\n")
+end
 
 local function title(str)
    print()
@@ -194,12 +194,14 @@ function test_env.remove_dir(path)
 
             if lfs.attributes(full_path, "mode") == "directory" then
                test_env.remove_dir(full_path)
+               lfs.rmdir(full_path)
             else
                os.remove(full_path)
             end
          end
       end
    end
+   lfs.rmdir(path)
    os.remove(path)
 end
 
