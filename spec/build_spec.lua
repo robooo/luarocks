@@ -102,7 +102,7 @@ describe("LuaRocks build tests #blackbox #b_build", function()
       end)
       
       it("LuaRocks build supported platforms lpty", function()
-         assert.is_true(run.luarocks_bool("build lpty"))
+         assert.is_true(run.luarocks_bool(test_env.quiet("build lpty")))
          assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpty"))
       end)
       
