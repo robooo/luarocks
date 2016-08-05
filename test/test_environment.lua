@@ -389,7 +389,7 @@ local function build_environment(rocks, env_variables)
    lfs.mkdir(testing_paths.testing_sys_tree)
 
    test_env.run.luarocks_admin_nocov("make_manifest " .. Q(testing_paths.testing_server))
-   test_env.run.luarocks_admin_nocov("make_manifest " .. Q*testing_paths.testing_cache))
+   test_env.run.luarocks_admin_nocov("make_manifest " .. Q(testing_paths.testing_cache))
 
    for _, rock in ipairs(rocks) do
       if not test_env.run.luarocks_nocov("install --only-server=" .. testing_paths.testing_cache .. " --tree=" .. testing_paths.testing_sys_tree .. " " .. Q(rock), env_variables) then
