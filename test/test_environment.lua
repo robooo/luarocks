@@ -25,11 +25,6 @@ local function help()
    os.exit(1)
 end
 
--- function print(...)
---    io.stderr:write(...)
---    io.stderr:write("\n")
--- end
-
 local function title(str)
    print()
    print(("-"):rep(#str))
