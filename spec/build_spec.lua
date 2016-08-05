@@ -102,8 +102,12 @@ describe("LuaRocks build tests #blackbox #b_build", function()
       end)
       
       it("LuaRocks build supported platforms lpty", function()
-         assert.is_true(run.luarocks_bool("build lpty"))
-         assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpty"))
+         if test_env.TEST_TARGET_OS == "windows" then
+            assert.is_false(run.luarocks_bool("build lpty")) --Error: This rockspec for lpty does not support win32, windows platforms
+         else
+            assert.is_true(run.luarocks_bool(test_env.quiet("build lpty")))
+            assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpty"))
+         end
       end)
       
       it("LuaRocks build luasec with skipping dependency checks", function()
