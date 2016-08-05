@@ -196,6 +196,7 @@ function test_env.remove_dir(path)
                test_env.remove_dir(full_path)
                lfs.rmdir(full_path)
             else
+               lfs.rmdir(full_path)
                os.remove(full_path)
             end
          end
