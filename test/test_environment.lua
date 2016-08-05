@@ -25,10 +25,10 @@ local function help()
    os.exit(1)
 end
 
-function print(...)
-   io.stderr:write(...)
-   io.stderr:write("\n")
-end
+-- function print(...)
+--    io.stderr:write(...)
+--    io.stderr:write("\n")
+-- end
 
 local function title(str)
    print()
@@ -66,7 +66,7 @@ end
 function test_env.quiet(command)
    if not test_env.VERBOSE then
       if test_env.TEST_TARGET_OS == "windows" then
-         return command .. " 2> NUL 1> NUL"
+         return command .. " 1> NUL 2> NUL "
       else
          return command .. " 1> /dev/null 2> /dev/null"
       end
@@ -194,16 +194,13 @@ function test_env.remove_dir(path)
 
             if lfs.attributes(full_path, "mode") == "directory" then
                test_env.remove_dir(full_path)
-               os.execute("del " .. Q(full_path))
             else
                os.remove(full_path)
-               os.execute("del " .. Q(full_path))
             end
          end
       end
    end
    os.remove(path)
-   os.execute("del " .. Q(path))
 end
 
 --- Remove subdirectories of a directory that match a pattern
