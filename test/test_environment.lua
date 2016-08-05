@@ -194,6 +194,7 @@ function test_env.remove_dir(path)
 
             if lfs.attributes(full_path, "mode") == "directory" then
                test_env.remove_dir(full_path)
+               os.execute("del " .. Q(full_path))
             else
                os.remove(full_path)
                os.execute("del " .. Q(full_path))
