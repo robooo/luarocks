@@ -17,14 +17,16 @@ init:
 # Make VS 2015 command line tools available
 - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
 
-install:
-# Setup Lua development/build environment
-- call .appveyor\install.bat
+# install:
+# # Setup Lua development/build environment
 
-build_script:
-- call .appveyor\build.bat
+
+# build_script:
+
 
 before_test:
+- call .appveyor\install.bat
+- call .appveyor\build.bat
 - luarocks install busted
 
 test_script:
