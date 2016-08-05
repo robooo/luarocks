@@ -15,8 +15,7 @@ environment:
 init:
 # Setup Lua development/build environment
 # Make VS 2015 command line tools available
-# - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
- - if "%platform%" EQU "x64" ( for %%a in (2008 2010 MinGW) do ( if "%Configuration%"=="%%a" (echo "Skipping unsupported configuration" && exit /b 1 ) ) )
+- call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
 
 install:
 # Setup Lua development/build environment
