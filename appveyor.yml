@@ -18,11 +18,13 @@ init:
 - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
 
 install:
-# Setup Lua development/build environment
+# # Setup Lua development/build environment
 - call .appveyor\install.bat
-
-build_script:
 - call .appveyor\build.bat
+
+# build_script:
+# - call .appveyor\install.bat
+# - call .appveyor\build.bat
 
 before_test:
 - luarocks install busted
