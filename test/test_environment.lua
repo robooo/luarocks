@@ -66,7 +66,7 @@ end
 function test_env.quiet(command)
    if not test_env.VERBOSE then
       if test_env.TEST_TARGET_OS == "windows" then
-         return command .. " 1> NUL 2> NUL "
+         return command .. " 1> NUL 2> NUL"
       else
          return command .. " 1> /dev/null 2> /dev/null"
       end
