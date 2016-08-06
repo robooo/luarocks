@@ -182,12 +182,15 @@ end
 --- Remove directory recursively
 -- @param path string: directory path to delete
 function test_env.remove_dir(path)
+   print("path  == " .. path)
+   print("attributes  == " .. lfs.attributes(full_path, "mode"))
    if exists(path) then
+      print("path  exists == " .. path)
       for file in lfs.dir(path) do
          if file ~= "." and file ~= ".." then
             local full_path = path..'/'..file
 
-            print("attributes  == " .. lfs.attributes(full_path, "mode"))
+
             if lfs.attributes(full_path, "mode") == "directory" then
                test_env.remove_dir(full_path)
             else
