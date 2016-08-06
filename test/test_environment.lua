@@ -186,9 +186,8 @@ function test_env.remove_dir(path)
    path=path:gsub("/", "\\")
    print("EXISTS2 " .. path)
    print("CURRENT " .. lfs.currentdir())
-   print("GSUBbed " .. path:gsub("\\testing-5.1", ""))
-   print(exists(path:gsub("\\testing-5.1", "")))
-   print(exists(lfs.currentdir().."\\test"))
+
+   print(exists(lfs.currentdir().."\\test\\testing-5.1"))
    if exists(path) then
 
       for file in lfs.dir(path) do
