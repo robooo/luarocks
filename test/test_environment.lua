@@ -190,7 +190,7 @@ function test_env.remove_dir(path)
             if lfs.attributes(full_path, "mode") == "directory" then
                test_env.remove_dir(full_path)
             else
-               print("DELETING " .. full_path)
+               print("DELETING " .. full_path .. "  +  " ..lfs.attributes(full_path, "mode"))
                os.remove(full_path)
             end
          end
