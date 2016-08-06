@@ -67,8 +67,7 @@ describe("LuaRocks build tests #blackbox #b_build", function()
       
       it("LuaRocks build lpeg deps-mode=123", function()
          assert.is_false(run.luarocks_bool("build --deps-mode=123 lpeg"))
-         os.execute("del " .. testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec")
-         os.remove(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec")
+         -- os.remove(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec")
          assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec"))
       end)
       
