@@ -20,11 +20,6 @@ ARGUMENTS
    os=<type>      Set OS ("linux", "osx", or "windows").
 ]]
 
-function print(...)
-   io.stderr:write(...)
-   io.stderr:write("\n")
-end
-
 local function help()
    print(help_message)
    os.exit(1)
@@ -187,14 +182,7 @@ end
 --- Remove directory recursively
 -- @param path string: directory path to delete
 function test_env.remove_dir(path)
-   -- path = Q(path)
-   path=path:gsub("/", "\\")
-   print("EXISTS2 " .. path)
-   print("CURRENT " .. lfs.currentdir())
-
-   print(exists(lfs.currentdir().."\\test\\testing-5.1"))
    if exists(path) then
-
       for file in lfs.dir(path) do
          if file ~= "." and file ~= ".." then
             local full_path = path..'/'..file
