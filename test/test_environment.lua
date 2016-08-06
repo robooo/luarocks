@@ -183,8 +183,9 @@ end
 -- @param path string: directory path to delete
 function test_env.remove_dir(path)
    path = Q(path)
+   print("EXISTS2 " .. exists(path))
    if exists(path) then
-      print("EXISTS " .. path)
+
       for file in lfs.dir(path) do
          if file ~= "." and file ~= ".." then
             local full_path = path..'/'..file
