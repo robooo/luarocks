@@ -183,6 +183,7 @@ end
 -- @param path string: directory path to delete
 function test_env.remove_dir(path)
    -- path = Q(path)
+   path=path:gsub("/", "\\")
    print("EXISTS2 " .. path)
    print("CURRENT " .. lfs.currentdir())
    print(exists(path))
