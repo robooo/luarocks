@@ -111,7 +111,7 @@ describe("LuaRocks build tests #blackbox #b_build", function()
    --    end)
       
       it("LuaRocks build luasec with skipping dependency checks", function()
-         assert.is_true(run.luarocks_bool("build luasec OPENSSL_LIBDIR=C:\OpenSSL-Win32\lib OPENSSL_INCDIR=C:\OpenSSL-Win32\include --nodeps"))
+         assert.is_true(run.luarocks_bool("build luasec OPENSSL_LIBDIR=C:\\OpenSSL-Win32\\lib OPENSSL_INCDIR=C:\\OpenSSL-Win32\\include --nodeps"))
          assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/luasec"))
       end)
       
