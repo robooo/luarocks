@@ -184,7 +184,8 @@ end
 function test_env.remove_dir(path)
    path = Q(path)
    print("EXISTS2 " .. path)
-      print(exists(path))
+   print("CURRENT " .. lfs.currentdir())
+   print(exists(path))
    if exists(path) then
 
       for file in lfs.dir(path) do
