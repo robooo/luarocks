@@ -145,11 +145,6 @@ function test_env.set_args()
    test_env.TYPE_TEST_ENV = "minimal"
    test_env.RESET_ENV = true
 
-   if arg[1] == "appveyor" then
-      print("HERE ")
-      os.exit(1)
-   end
-
    for _, argument in ipairs(arg) do
       print("ARGS " .. argument)
       if argument:find("^env=") then
@@ -162,6 +157,8 @@ function test_env.set_args()
          test_env.VERBOSE = true
       elseif argument == "travis" then
          test_env.TRAVIS = true
+      elseif argument == "appveyor" then
+         test_env.APPVEYOR = true
       elseif argument:find("^os=") then
          test_env.TEST_TARGET_OS = argument:match("^os=(.*)$")
       else
