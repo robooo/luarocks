@@ -159,6 +159,7 @@ function test_env.set_args()
          test_env.TRAVIS = true
       elseif argument == "appveyor" then
          test_env.APPVEYOR = true
+         test_env.APPVEYOR_OPENSSL = "OPENSSL_LIBDIR=C:\\OpenSSL-Win32\\lib OPENSSL_INCDIR=C:\\OpenSSL-Win32\\include"
       elseif argument:find("^os=") then
          test_env.TEST_TARGET_OS = argument:match("^os=(.*)$")
       else
