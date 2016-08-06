@@ -253,10 +253,8 @@ local function download_rocks(urls, save_path)
       -- check if already downloaded
       if not exists(save_path .. url) then
          if test_env.TEST_TARGET_OS == "windows" then
-            print("WINDOWS WGET")
             execute_bool(test_env.testing_paths.win_tools .. "/wget -cP " .. save_path .. " " .. luarocks_repo .. url .. " --no-check-certificate")
          else
-            print("UNIX WGET")
             execute_bool("wget -cP " .. save_path .. " " .. luarocks_repo .. url)
          end
          make_manifest = true 

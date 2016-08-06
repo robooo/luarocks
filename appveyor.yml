@@ -20,12 +20,14 @@ init:
 install:
 # Setup Lua development/build environment
 - call .appveyor\install.bat 1> NUL 2> NUL
+- ps: Start-FileDownload 'http://slproweb.com/download/Win32OpenSSL-1_0_2a.exe';
+- ps: Start-Process "Win32OpenSSL-1_0_2a.exe" -ArgumentList "/silent /verysilent /sp- /suppressmsgboxes" -Wait
 
 build_script:
 - call .appveyor\build.bat 1> NUL 2> NUL
 
 before_test:
-- luarocks install busted
+- luarocks install busted 1> NUL 2> NUL
 
 test_script:
 - busted --lpath=.//?.lua --exclude-tags=ssh
