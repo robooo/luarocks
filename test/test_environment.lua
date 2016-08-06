@@ -183,7 +183,7 @@ end
 -- @param path string: directory path to delete
 function test_env.remove_dir(path)
    print("path  == " .. path)
-   print("attributes  == " .. lfs.attributes(Q(path)))
+   print("attributes  == " .. lfs.attributes(path))
    if exists(path) then
       print("path  exists == " .. path)
       for file in lfs.dir(path) do
@@ -380,10 +380,10 @@ end
 local function build_environment(rocks, env_variables)
    title("BUILDING ENVIRONMENT")
    local testing_paths = test_env.testing_paths
-   test_env.remove_dir(testing_paths.testing_tree)
-   test_env.remove_dir(testing_paths.testing_sys_tree)
-   test_env.remove_dir(testing_paths.testing_tree_copy)
-   test_env.remove_dir(testing_paths.testing_sys_tree_copy)
+   test_env.remove_dir(Q(testing_paths.testing_tree))
+   test_env.remove_dir(Q(testing_paths.testing_sys_tree))
+   test_env.remove_dir(Q(testing_paths.testing_tree_copy))
+   test_env.remove_dir(Q(testing_paths.testing_sys_tree_copy))
 
    lfs.mkdir(testing_paths.testing_tree)
    lfs.mkdir(testing_paths.testing_sys_tree)
@@ -413,12 +413,12 @@ local function reset_environment(testing_paths, md5sums)
    local testing_sys_tree_md5 = hash_environment(testing_paths.testing_sys_tree)
 
    if testing_tree_md5 ~= md5sums.testing_tree_copy_md5 then
-      test_env.remove_dir(testing_paths.testing_tree)
+      test_env.remove_dir(Q(testing_paths.testing_tree))
       copy_dir(testing_paths.testing_tree_copy, testing_paths.testing_tree)
    end
 
    if testing_sys_tree_md5 ~= md5sums.testing_sys_tree_copy_md5 then
-      test_env.remove_dir(testing_paths.testing_sys_tree)
+      test_env.remove_dir(Q(testing_paths.testing_sys_tree))
       copy_dir(testing_paths.testing_sys_tree_copy, testing_paths.testing_sys_tree)
    end
    print("\n[ENVIRONMENT RESET]")
