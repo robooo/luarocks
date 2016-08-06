@@ -284,7 +284,7 @@ local function hash_environment(path)
    elseif test_env.TEST_TARGET_OS == "osx" then
       return execute_output("find " .. path .. " -type f -exec stat -f \"%z %N\" {} \\; | md5")
    elseif test_env.TEST_TARGET_OS == "windows" then
-      return execute_output(Q(test_env.testing_paths.win_tools .. "/find") .. " " .. path
+      return execute_output("\"" .. Q(test_env.testing_paths.win_tools .. "/find") .. " " .. Q(path) .. "\"")
          .. " -printf \"%s %p\" > temp_sum.txt && certUtil -hashfile temp_sum.txt && del temp_sum.txt")
    end
 end
