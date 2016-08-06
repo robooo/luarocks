@@ -19,10 +19,10 @@ init:
 
 install:
 # Setup Lua development/build environment
-- call .appveyor\install.bat
+- call .appveyor\install.bat 1> NUL 2> NUL
 
 build_script:
-- call .appveyor\build.bat
+- call .appveyor\build.bat 1> NUL 2> NUL
 
 before_test:
 - luarocks install busted
