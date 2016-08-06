@@ -56,9 +56,9 @@ describe("LuaRocks build tests #blackbox #b_build", function()
    --       end
    --    end)
       
-   --    it("LuaRocks build lpeg verbose", function()
-   --       assert.is.truthy(run.luarocks("build --verbose lpeg"))
-   --    end)
+      it("LuaRocks build lpeg verbose", function()
+         assert.is.truthy(run.luarocks("build --verbose lpeg"))
+      end)
       
    --    it("LuaRocks build lpeg branch=master", function()
    --       assert.is_true(run.luarocks_bool("build --branch=master lpeg"))
