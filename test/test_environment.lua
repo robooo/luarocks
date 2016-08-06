@@ -183,7 +183,7 @@ end
 -- @param path string: directory path to delete
 function test_env.remove_dir(path)
    path = Q(path)
-   print("EXISTS2 ")
+   print("EXISTS2 " .. path)
       print(exists(path))
    if exists(path) then
 
