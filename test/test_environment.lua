@@ -187,6 +187,7 @@ function test_env.remove_dir(path)
          if file ~= "." and file ~= ".." then
             local full_path = path..'/'..file
 
+            print("attributes  == " .. lfs.attributes(full_path, "mode"))
             if lfs.attributes(full_path, "mode") == "directory" then
                test_env.remove_dir(full_path)
             else
