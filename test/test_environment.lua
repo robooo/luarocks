@@ -20,13 +20,18 @@ ARGUMENTS
    os=<type>      Set OS ("linux", "osx", or "windows").
 ]]
 
+function print(...)
+   -- io.stderr:write(...)
+   io.stderr:write("\n")
+end
+
 local function help()
    print(help_message)
    os.exit(1)
 end
 
 local function title(str)
-   -- print()
+   print()
    print(("-"):rep(#str))
    print(str)
    print(("-"):rep(#str))
