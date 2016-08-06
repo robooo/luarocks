@@ -183,7 +183,7 @@ end
 -- @param path string: directory path to delete
 function test_env.remove_dir(path)
    print("path  == " .. path)
-   print("attributes  == " .. lfs.attributes(path, "mode"))
+   print("attributes  == " .. lfs.attributes(path))
    if exists(path) then
       print("path  exists == " .. path)
       for file in lfs.dir(path) do
