@@ -184,6 +184,7 @@ end
 function test_env.remove_dir(path)
    path = Q(path)
    if exists(path) then
+      print("EXISTS " .. path)
       for file in lfs.dir(path) do
          if file ~= "." and file ~= ".." then
             local full_path = path..'/'..file
