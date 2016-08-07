@@ -146,7 +146,6 @@ function test_env.set_args()
    test_env.RESET_ENV = true
 
    for _, argument in ipairs(arg) do
-      print("ARGS " .. argument)
       if argument:find("^env=") then
          test_env.TYPE_TEST_ENV = argument:match("^env=(.*)$")
       elseif argument == "noreset" then
@@ -175,7 +174,6 @@ function test_env.set_args()
       elseif execute_output("uname -s") == "Linux" then
          test_env.TEST_TARGET_OS = "linux"
       else
-         print("WINDOWS HERE!")
          test_env.TEST_TARGET_OS = "windows"
       end
    end
