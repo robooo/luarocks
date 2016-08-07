@@ -45,7 +45,7 @@ describe("LuaRocks install tests #blackbox #b_install", function()
       end)
 
       it("LuaRocks install with local flag as root", function()
-         assert.is_false(run.luarocks_bool("install --local luasocket", { USER = "root" } ))
+         assert.is_false(run.luarocks_bool("install --local luasocket " .. test_env.APPVEYOR_OPENSSL, { USER = "root" } ))
       end)
 
       it("LuaRocks install not a zip file", function()
