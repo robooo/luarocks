@@ -66,14 +66,22 @@ describe("LuaRocks install tests #blackbox #b_install", function()
       end)
 
       it("LuaRocks install luasec and show luasocket (dependency)", function()
-         assert.is_true(run.luarocks_bool("install luasec"))
+         if test_env.APPVEYOR then
+            assert.is_true(run.luarocks_bool("install luasec " .. test_env.APPVEYOR_OPENSSL))
+         else
+            assert.is_true(run.luarocks_bool("install luasec"))
+         end
          assert.is_true(run.luarocks_bool("show luasocket"))
       end)
    end)
 
    describe("LuaRocks install - more complex tests", function()
       it('LuaRocks install luasec with skipping dependency checks', function()
-         run.luarocks_bool(test_env.quiet(" install luasec --nodeps"))
+         if test_env.APPVEYOR then
+            assert.is_true(run.luarocks_bool(test_env.quiet("install luasec " .. test_env.APPVEYOR_OPENSSL .. " --nodeps")))
+         else
+            assert.is_true(run.luarocks_bool(test_env.quiet("install luasec --nodeps")))
+         end
          assert.is_true(run.luarocks_bool(test_env.quiet("show luasec")))
          if env_variables.TYPE_TEST_ENV == "minimal" then
             assert.is_false(run.luarocks_bool(test_env.quiet("show luasocket")))
