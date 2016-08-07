@@ -121,7 +121,7 @@ describe("LuaRocks build tests #blackbox #b_build", function()
       
       it("LuaRocks build lmathx deps partial match #speci", function()
          assert.is_true(run.luarocks_bool("build lmathx"))
-         assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lmathx/20120430.52-1/lmathx-20120430.52-1.rockspec"))
+         assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lmathx/20120430.52-1"))
       end)
    end)
 
