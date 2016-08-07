@@ -119,9 +119,16 @@ describe("LuaRocks build tests #blackbox #b_build", function()
          assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/luasec/0.6-1/luasec-0.6-1.rockspec"))
       end)
       
-      it("LuaRocks build lmathx deps partial match #speci", function()
+      it("LuaRocks build lmathx deps partial match", function()
          assert.is_true(run.luarocks_bool("build lmathx"))
-         assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lmathx/20120430.52-1"))
+
+         if test_env.LUA_V == "5.1" or test_env.LUAJIT_V then
+            assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lmathx/20120430.51-1/lmathx-20120430.51-1.rockspec"))
+         elseif test_env.LUA_V == "5.2"
+            assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lmathx/20120430.52-1/lmathx-20120430.52-1.rockspec"))
+         elseif test_env.LUA_V == "5.3"
+            assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lmathx/20150505-1/lmathx-20150505-1.rockspec"))
+         end
       end)
    end)
 
