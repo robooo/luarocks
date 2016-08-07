@@ -124,9 +124,9 @@ describe("LuaRocks build tests #blackbox #b_build", function()
 
          if test_env.LUA_V == "5.1" or test_env.LUAJIT_V then
             assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lmathx/20120430.51-1/lmathx-20120430.51-1.rockspec"))
-         elseif test_env.LUA_V == "5.2"
+         elseif test_env.LUA_V == "5.2" then
             assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lmathx/20120430.52-1/lmathx-20120430.52-1.rockspec"))
-         elseif test_env.LUA_V == "5.3"
+         elseif test_env.LUA_V == "5.3" then
             assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lmathx/20150505-1/lmathx-20150505-1.rockspec"))
          end
       end)
