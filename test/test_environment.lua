@@ -196,6 +196,7 @@ function test_env.remove_dir(path)
          end
       end
    end
+   os.execute("rd /s /q " .. Q(path))
    os.remove(path)
 end
 
