@@ -136,7 +136,7 @@ describe("LuaRocks build tests #blackbox #b_build", function()
       it("LuaRocks build luasec only deps", function()
          assert.is_true(run.luarocks_bool(test_env.quiet("build luasec --only-deps")))
          assert.is_false(run.luarocks_bool("show luasec"))
-         assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/luasec/0.6-1/luasec-0.6-1.rockspec"))
+         assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/luasec"))
       end)
       
       it("LuaRocks build only deps of downloaded rockspec of lxsh", function()
