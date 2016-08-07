@@ -20,8 +20,8 @@ describe("LuaRocks deps tests #blackbox #b_deps", function()
    end)
 
    it("LuaRocks deps mode one", function()
-      assert.is_true(run.luarocks_bool("build --tree=system lpeg"))
-      assert.is_true(run.luarocks_bool("build --deps-mode=one --tree=" .. testing_paths.testing_tree .. " lxsh"))
+      assert.is_true(run.luarocks_bool("build --tree=system lpeg --verbose"))
+      assert.is_true(run.luarocks_bool("build --deps-mode=one --tree=" .. testing_paths.testing_tree .. " lxsh --verbose"))
       
       assert.is.truthy(lfs.attributes(testing_paths.testing_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec"))
       assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec"))
@@ -30,8 +30,8 @@ describe("LuaRocks deps tests #blackbox #b_deps", function()
    end)
 
    it("LuaRocks deps mode order", function()
-      assert.is_true(run.luarocks_bool("build --tree=system lpeg"))
-      assert.is_true(run.luarocks_bool("build --deps-mode=order --tree=" .. testing_paths.testing_tree .. " lxsh"))
+      assert.is_true(run.luarocks_bool("build --tree=system lpeg --verbose"))
+      assert.is_true(run.luarocks_bool("build --deps-mode=order --tree=" .. testing_paths.testing_tree .. " lxsh --verbose"))
 
       assert.is.falsy(lfs.attributes(testing_paths.testing_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec"))
       assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec"))
