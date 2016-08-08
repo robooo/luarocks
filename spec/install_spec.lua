@@ -1,31 +1,31 @@
--- local test_env = require("test/test_environment")
--- local lfs = require("lfs")
--- local run = test_env.run
--- local testing_paths = test_env.testing_paths
--- local env_variables = test_env.env_variables
+local test_env = require("test/test_environment")
+local lfs = require("lfs")
+local run = test_env.run
+local testing_paths = test_env.testing_paths
+local env_variables = test_env.env_variables
 
--- test_env.unload_luarocks()
+test_env.unload_luarocks()
 
--- local extra_rocks = {
---    "/cprint-0.1-2.src.rock",
---    "/cprint-0.1-2.rockspec",
---    "/lpeg-0.12-1.src.rock",
---    "/luasec-0.6-1.rockspec",
---    "/luassert-1.7.0-1.src.rock",
---    "/luasocket-3.0rc1-1.src.rock",
---    "/luasocket-3.0rc1-1.rockspec",
---    "/lxsh-0.8.6-2.src.rock",
---    "/lxsh-0.8.6-2.rockspec",
---    "/say-1.2-1.src.rock",
---    "/say-1.0-1.src.rock",
---    "/wsapi-1.6-1.src.rock"
--- }
+local extra_rocks = {
+   "/cprint-0.1-2.src.rock",
+   "/cprint-0.1-2.rockspec",
+   "/lpeg-0.12-1.src.rock",
+   "/luasec-0.6-1.rockspec",
+   "/luassert-1.7.0-1.src.rock",
+   "/luasocket-3.0rc1-1.src.rock",
+   "/luasocket-3.0rc1-1.rockspec",
+   "/lxsh-0.8.6-2.src.rock",
+   "/lxsh-0.8.6-2.rockspec",
+   "/say-1.2-1.src.rock",
+   "/say-1.0-1.src.rock",
+   "/wsapi-1.6-1.src.rock"
+}
 
--- describe("LuaRocks install tests #blackbox #b_install", function()
+describe("LuaRocks install tests #blackbox #b_install", function()
 
---    before_each(function()
---       test_env.setup_specs(extra_rocks)
---    end)
+   before_each(function()
+      test_env.setup_specs(extra_rocks)
+   end)
 
 --    describe("LuaRocks install - basic tests", function()
 --       it("LuaRocks install with no flags/arguments", function()
@@ -135,4 +135,4 @@
 --          assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/say/1.0-1"))
 --       end)
 --    end)
--- end)
+end)
