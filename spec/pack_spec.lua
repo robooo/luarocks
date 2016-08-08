@@ -6,9 +6,9 @@ local testing_paths = test_env.testing_paths
 test_env.unload_luarocks()
 
 local extra_rocks = {
-	"/luasec-0.6-1.rockspec",
-	"/luasocket-3.0rc1-1.src.rock",
-	"/luasocket-3.0rc1-1.rockspec",
+   "/luasec-0.6-1.rockspec",
+   "/luasocket-3.0rc1-1.src.rock",
+   "/luasocket-3.0rc1-1.rockspec",
    "/say-1.2-1.src.rock",
    "/say-1.0-1.src.rock"
 }
@@ -49,7 +49,11 @@ describe("LuaRocks pack tests #blackbox #b_pack", function()
    end)
 
    it("LuaRocks pack src", function()
-      assert.is_true(run.luarocks_bool(test_env.quiet("install luasec")))
+      if test_env.APPVEYOR then
+         assert.is_true(run.luarocks_bool(test_env.quiet("install luasec " .. test_env.APPVEYOR_OPENSSL)))
+      else
+         assert.is_true(run.luarocks_bool(test_env.quiet("install luasec")))
+      end
       assert.is_true(run.luarocks_bool("download --rockspec luasocket 3.0rc1-1"))
       assert.is_true(run.luarocks_bool("pack luasocket-3.0rc1-1.rockspec"))
       assert.is_true(test_env.remove_files(lfs.currentdir(), "luasocket-"))
