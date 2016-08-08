@@ -34,7 +34,7 @@ describe("LuaRocks make tests #blackbox #b_make", function()
 
       -- test it
       assert.is_true(run.luarocks_bool(test_env.quiet("show luasocket")))
-      assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/luasocket"))
+      assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/luasocket/3.0rc1-1/luasocket-3.0rc1-1.rockspec"))
 
       -- delete downloaded and unpacked files
       lfs.chdir(testing_paths.luarocks_dir)
@@ -62,7 +62,7 @@ describe("LuaRocks make tests #blackbox #b_make", function()
          assert.is_true(run.luarocks_bool("make"))
 
          assert.is_true(run.luarocks_bool(test_env.quiet("show lxsh")))
-         assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lxsh"))
+         assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lxsh/0.8.6-2/lxsh-0.8.6-2.rockspec"))
       end)
 
       it("LuaRocks make unnamed rockspec", function()
@@ -70,7 +70,7 @@ describe("LuaRocks make tests #blackbox #b_make", function()
          assert.is_true(run.luarocks_bool("make"))
 
          assert.is_true(run.luarocks_bool(test_env.quiet("show lxsh")))
-         assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lxsh"))
+         assert.is.truthy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lxsh/0.8.6-2/lxsh-0.8.6-2.rockspec"))
       end)
       
       it("LuaRocks make ambiguous rockspec", function()
@@ -78,7 +78,7 @@ describe("LuaRocks make tests #blackbox #b_make", function()
          assert.is_false(run.luarocks_bool("make"))
 
          assert.is_false(run.luarocks_bool("show lxsh"))
-         assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lxsh"))
+         assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lxsh/0.8.6-2/lxsh-0.8.6-2.rockspec"))
       end)
       
       it("LuaRocks make ambiguous unnamed rockspec", function()
@@ -87,7 +87,7 @@ describe("LuaRocks make tests #blackbox #b_make", function()
          assert.is_false(run.luarocks_bool("make"))
 
          assert.is_false(run.luarocks_bool("show lxsh"))
-         assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lxsh"))
+         assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lxsh/0.8.6-2/lxsh-0.8.6-2.rockspec"))
       end)
       
       it("LuaRocks make pack binary rock", function()
