@@ -196,12 +196,12 @@ function test_env.remove_dir(path)
          end
       end
    end
-   
-   if test_env.TEST_TARGET_OS == "windows" then
-      os.execute("rd /s /q " .. Q(path))
-   else
-      os.remove(path)
-   end
+   lfs.rmdir(path)
+   -- if test_env.TEST_TARGET_OS == "windows" then
+   --    os.execute("rd /s /q " .. Q(path))
+   -- else
+   --    os.remove(path)
+   -- end
 end
 
 --- Remove subdirectories of a directory that match a pattern
