@@ -42,7 +42,11 @@ describe("LuaRocks pack tests #blackbox #b_pack", function()
 
    it("LuaRocks pack specify which version of rock", function()
       assert.is_true(run.luarocks_bool("install say 1.2"))
-      assert.is_true(run.luarocks_bool("install luassert"))
+      if test_env.APPVEYOR then
+         assert.is_true(run.luarocks_bool(test_env.quiet("install luassert " .. test_env.APPVEYOR_OPENSSL)))
+      else
+         assert.is_true(run.luarocks_bool(test_env.quiet("install luassert")))
+      end
       assert.is_true(run.luarocks_bool("install say 1.0"))
       
       assert.is_false(run.luarocks_bool("pack say"))
