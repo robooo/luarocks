@@ -44,10 +44,10 @@
 --          assert.is_false(run.luarocks_bool("install \"invalid.rock\" "))
 --       end)
 
-      -- it("LuaRocks install with local flag as root", function()
-      --    assert.is_false(run.luarocks_bool("install --local luasocket ", { USER = "root" } ))
-      --    assert.is_false(run.luarocks_bool("install --local luasocket ", { USER = "root" } ))
-      -- end)
+      it("LuaRocks install with local flag as root", function()
+         assert.is_false(run.luarocks_bool("install --local luasocket ", { USER = "root" } ))
+         assert.is_false(run.luarocks_bool("install --local luasocket ", { USER = "root" } ))
+      end)
 
 --       it("LuaRocks install not a zip file", function()
 --          assert.is_false(run.luarocks_bool("install " .. testing_paths.testing_dir .. "/testfiles/not_a_zipfile-1.0-1.src.rock"))
