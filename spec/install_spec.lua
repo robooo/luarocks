@@ -44,8 +44,7 @@
 -- --          assert.is_false(run.luarocks_bool("install \"invalid.rock\" "))
 -- --       end)
 
---       -- it("LuaRocks install with local flag as root", function()
---       --    assert.is_false(run.luarocks_bool("install --local luasocket ", { USER = "Administrator" } ))
+--       -- it("LuaRocks install with local flag as root #", function()
 --       --    -- assert.is_false(run.luarocks_bool("install --local luasocket ", { USER = "root" } ))
 --       -- end)
 
