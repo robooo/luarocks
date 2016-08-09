@@ -41,6 +41,20 @@ local function exists(path)
    return lfs.attributes(path, "mode") ~= nil
 end
 
+function test_env.copy(source, destination)
+   local r_source, err = io.open(source, "r")
+   local r_destination, err = io.open(destination, "w")
+
+   while true do
+      local block = r_source:read(8192)
+      if not block then break end
+      r_destination:write(block)
+   end
+
+   r_source:close()
+   r_destination:close()
+end
+
 --- Quote argument for shell processing. Fixes paths on Windows.
 -- Adds double quotes and escapes. Based on function in fs/win32.lua.
 -- @param arg string: Unquoted argument.
