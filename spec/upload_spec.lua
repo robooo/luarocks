@@ -46,7 +46,7 @@ describe("LuaRocks upload tests #blackbox #b_upload", function()
    -- end)
    
    it("LuaRocks upload force", function()
-      -- assert.is_true(run.luarocks_bool("install lua-cjson --verbose"))
+      assert.is_true(run.luarocks_bool("install lua-cjson --verbose"))
       -- assert.is_false(run.luarocks_bool("upload --api-key=\"invalid\" --force luacov-0.11.0-1.rockspec"))
       -- assert.is_true(run.luarocks_bool("install lua-cjson"))
    end)
