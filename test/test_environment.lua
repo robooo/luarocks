@@ -640,9 +640,8 @@ local function install_luarocks(install_env_vars)
    local testing_paths = test_env.testing_paths
    title("Installing LuaRocks")
    if test_env.TEST_TARGET_OS == "windows" then
-      execute_bool("install.bat /LUA " .. testing_paths.luadir .. " /P " .. testing_paths.testing_lrprefix .. " /NOREG /NOADMIN /F /Q /CONFIG " .. testing_paths.testing_dir, false, install_env_vars)
-      execute_bool(testing_paths.win_tools .. "/cp " .. testing_paths.testing_lrprefix .. "/lua/luarocks/site_config* "
-         .. testing_paths.src_dir .. "/luarocks")
+      assert(execute_bool("install.bat /LUA " .. testing_paths.luadir .. " /P " .. testing_paths.testing_lrprefix .. " /NOREG /NOADMIN /F /Q /CONFIG " .. testing_paths.testing_dir, false, install_env_vars))
+      assert(execute_bool(testing_paths.win_tools .. "/cp " .. testing_paths.testing_lrprefix .. "/lua/luarocks/site_config.lua " .. testing_paths.src_dir .. "/luarocks"))
    else
       local configure_cmd = "./configure --with-lua=" .. testing_paths.luadir .. " --prefix=" .. testing_paths.testing_lrprefix
       assert(execute_bool(configure_cmd, false, install_env_vars))
