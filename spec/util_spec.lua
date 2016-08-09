@@ -67,35 +67,43 @@ describe("Basic tests #blackbox #b_util", function()
    --    assert.is.truthy(lfs.attributes("src/luarocks/site_config.lua"))
    -- end)
 
+   -- Disable versioned config temporarily, because it always takes
+   -- precedence over config.lua (config-5.x.lua is installed by default on Windows,
+   -- but not on Unix, so on Unix the os.rename commands below will fail
+   -- silently, but this is harmless)
    describe("LuaRocks sysconfig fails", function()
-      local scdir = ""
-      
+      local scdir = testing_paths.testing_lrprefix .. "/etc/luarocks/"
+      local scname = scdir .. "/config.lua"
+      local versioned_scname = scdir .. "/config-" .. env_variables.LUA_VERSION .. ".lua"
+
       before_each(function()
-         scdir = testing_paths.testing_lrprefix .. "/etc/luarocks/"
+         -- make sure scdir exists
          lfs.mkdir(testing_paths.testing_lrprefix)
          lfs.mkdir(testing_paths.testing_lrprefix .. "/etc/")
          lfs.mkdir(scdir)
+         -- make sure there are no config files in sysconf dir
+         os.rename(scname, scname..".bak")
+         os.rename(versioned_scname, versioned_scname..".bak")
       end)
 
-      -- after_each(function()
-      --    test_env.remove_dir(testing_paths.testing_lrprefix)
-      -- end) 
-
-      it("LuaRocks sysconfig without Lua version fail", function()
-         local sysconfig = io.open(scdir .. "/config.lua", "w+")
-         print("SYSCONFIG1 IS: " .. scdir .. "/config.lua")
-         sysconfig:write("aoeui")
-         sysconfig:close()
-
-         assert.is_false(run.luarocks_bool("list --verbose"))
+      after_each(function()
+         os.remove(scname)
+         os.remove(versioned_scname)
+         os.rename(scname..".bak", scname)
+         os.rename(versioned_scname..".bak", versioned_scname)
       end)
 
-      it("LuaRocks sysconfig with Lua version fail", function()
-         local sysconfig = io.open(scdir .. "/config-" .. env_variables.LUA_VERSION .. ".lua", "w+")
-         print("SYSCONFIG2 IS: " .. scdir .. "/config.lua")
+      it("LuaRocks sysconfig with Lua version fail", function() 
+         local sysconfig = io.open(versioned_scname, "w+")
          sysconfig:write("aoeui")
          sysconfig:close()
+         assert.is_false(run.luarocks_bool("list"))
+      end)
 
+      it("LuaRocks sysconfig without Lua version fail", function() 
+         local sysconfig = io.open(scname, "w+")
+         sysconfig:write("aoeui")
+         sysconfig:close()
          assert.is_false(run.luarocks_bool("list"))
       end)
    end)
