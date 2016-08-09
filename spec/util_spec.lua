@@ -54,17 +54,17 @@ describe("Basic tests #blackbox #b_util", function()
    --    assert.is.truthy(run.luarocks("--only-server=testing"))
    -- end)
    
-   it("LuaRocks test site config", function()
-      assert.is.truthy(os.rename("src/luarocks/site_config.lua", "src/luarocks/site_config.lua.tmp"))
-      assert.is.falsy(lfs.attributes("src/luarocks/site_config.lua"))
-      assert.is.truthy(lfs.attributes("src/luarocks/site_config.lua.tmp"))
+   -- it("LuaRocks test site config", function()
+   --    assert.is.truthy(os.rename("src/luarocks/site_config.lua", "src/luarocks/site_config.lua.tmp"))
+   --    assert.is.falsy(lfs.attributes("src/luarocks/site_config.lua"))
+   --    assert.is.truthy(lfs.attributes("src/luarocks/site_config.lua.tmp"))
 
-      assert.is.truthy(run.luarocks(""))
+   --    assert.is.truthy(run.luarocks(""))
       
-      assert.is.truthy(os.rename("src/luarocks/site_config.lua.tmp", "src/luarocks/site_config.lua"))
-      assert.is.falsy(lfs.attributes("src/luarocks/site_config.lua.tmp"))
-      assert.is.truthy(lfs.attributes("src/luarocks/site_config.lua"))
-   end)
+   --    assert.is.truthy(os.rename("src/luarocks/site_config.lua.tmp", "src/luarocks/site_config.lua"))
+   --    assert.is.falsy(lfs.attributes("src/luarocks/site_config.lua.tmp"))
+   --    assert.is.truthy(lfs.attributes("src/luarocks/site_config.lua"))
+   -- end)
 
    describe("LuaRocks sysconfig fails", function()
       local scdir = ""
@@ -85,7 +85,7 @@ describe("Basic tests #blackbox #b_util", function()
          sysconfig:write("aoeui")
          sysconfig:close()
 
-         assert.is_false(run.luarocks_bool("list"))
+         assert.is_false(run.luarocks_bool("list --verbose"))
       end)
 
       it("LuaRocks sysconfig fail", function()
