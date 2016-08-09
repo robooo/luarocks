@@ -343,7 +343,6 @@ local function make_run_function(cmd_name, exec_function, with_coverage, do_prin
    if with_coverage then
       cmd_prefix = cmd_prefix .. "-e \"require('luacov.runner')('" .. test_env.testing_paths.testing_dir .. "/luacov.config')\" "
    end
-
    
    if test_env.TEST_TARGET_OS == "windows" then
       cmd_prefix = cmd_prefix .. Q(test_env.testing_paths.testing_lrprefix .. "/" .. cmd_name .. ".lua") .. " "
@@ -640,7 +639,7 @@ local function install_luarocks(install_env_vars)
    local testing_paths = test_env.testing_paths
    title("Installing LuaRocks")
    if test_env.TEST_TARGET_OS == "windows" then
-      assert(execute_bool("install.bat /LUA " .. testing_paths.luadir .. " /P " .. testing_paths.testing_lrprefix .. " /NOREG /NOADMIN /F /Q /CONFIG " .. testing_paths.testing_dir, false, install_env_vars))
+      assert(execute_bool("install.bat /LUA " .. testing_paths.luadir .. " /P " .. testing_paths.testing_lrprefix .. " /NOREG /NOADMIN /F /Q /CONFIG " .. testing_paths.testing_lrprefix .. "/etc/luarocks", false, install_env_vars))
       assert(execute_bool(testing_paths.win_tools .. "/cp " .. testing_paths.testing_lrprefix .. "/lua/luarocks/site_config* " .. testing_paths.src_dir .. "/luarocks/site_config.lua"))
    else
       local configure_cmd = "./configure --with-lua=" .. testing_paths.luadir .. " --prefix=" .. testing_paths.testing_lrprefix

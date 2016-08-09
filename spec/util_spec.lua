@@ -71,16 +71,15 @@ describe("Basic tests #blackbox #b_util", function()
       local scdir = ""
       
       before_each(function()
-         test_env.remove_dir(testing_paths.testing_lrprefix)
          scdir = testing_paths.testing_lrprefix .. "/etc/luarocks/"
          lfs.mkdir(testing_paths.testing_lrprefix)
          lfs.mkdir(testing_paths.testing_lrprefix .. "/etc/")
          lfs.mkdir(scdir)
       end)
 
-      after_each(function()
-         test_env.remove_dir(testing_paths.testing_lrprefix)
-      end) 
+      -- after_each(function()
+      --    test_env.remove_dir(testing_paths.testing_lrprefix)
+      -- end) 
 
       it("LuaRocks sysconfig fail", function()
          local sysconfig = io.open(scdir .. "/config.lua", "w+")
