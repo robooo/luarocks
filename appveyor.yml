@@ -28,7 +28,7 @@ before_test:
 - luarocks install busted 1> NUL 2> NUL
 
 test_script:
-- busted --lpath=.//?.lua --exclude-tags=ssh -Xhelper appveyor
+- busted --lpath=.//?.lua --exclude-tags=ssh,unix,mock -Xhelper appveyor
 # --helper=test/test_environment.lua -Xhelper os=windows --lpath=.//?.lua --verbose
 # --helper="C:\projects\luarocks\test\test_environment.lua" --lpath="./?.lua"
 # 
