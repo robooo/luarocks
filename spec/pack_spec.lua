@@ -45,7 +45,6 @@
 --       assert.is_true(run.luarocks_bool("install say 1.2"))
 --       assert.is_true(run.luarocks_bool("install luassert"))
 --       assert.is_true(run.luarocks_bool("install say 1.0"))
-      
 --       assert.is_false(run.luarocks_bool("pack say"))
 --    end)
 
