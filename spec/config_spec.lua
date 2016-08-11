@@ -73,11 +73,10 @@ describe("LuaRocks config tests #blackbox #b_config", function()
       end)
 
       after_each(function()
-         print("HEREEEE " .. versioned_scname)
          test_env.copy("versioned_scname_temp", versioned_scname)
          test_env.copy("scname_temp", scname)
-         os.remove("versioned_scname_temp")
-         os.remove("scname_temp")
+         -- os.remove("versioned_scname_temp")
+         -- os.remove("scname_temp")
       end)
 
       -- it("LuaRocks fail system config", function()
