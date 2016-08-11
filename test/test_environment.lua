@@ -21,8 +21,12 @@ ARGUMENTS
 ]]
 
 function print(...)
-   io.stderr:write(...)
-   io.stderr:write("\n")
+   local out = {}
+   for i = 1, select("#", ...) do
+      local arg = select(i, ...)
+      table.insert(out, tostring(arg))
+   end
+   io.stderr:write(table.concat(out, "\t").."\n")
 end
 
 local function help()
