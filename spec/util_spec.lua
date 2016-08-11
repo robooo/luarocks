@@ -80,8 +80,8 @@
 --          lfs.mkdir(testing_paths.testing_lrprefix .. "/etc/")
 --          lfs.mkdir(scdir)
 --          -- make sure there are no config files in sysconf dir
---          print( "renaming scname, scname.bak", os.rename(scname, scname..".bak"))
---          print( "renaming versioned_scname, versioned_scname.bak", os.rename(versioned_scname, versioned_scname..".bak"))
+--          os.rename(scname, scname..".bak")
+--          os.rename(versioned_scname, versioned_scname..".bak")
 --       end)
 
 --       after_each(function()
