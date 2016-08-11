@@ -22,7 +22,7 @@ describe("LuaRocks config tests #blackbox #b_config", function()
       it("LuaRocks config include dir", function()
          local output = run.luarocks("config --lua-incdir")
          if test_env.TEST_TARGET_OS == "windows" then
-            assert.are.same(output:gsub("\\","/"), site_config.LUA_INCDIR)
+            assert.are.same(output, site_config.LUA_INCDIR:gsub("\\","/"))
          else
             assert.are.same(output, site_config.LUA_INCDIR)
          end
@@ -31,7 +31,7 @@ describe("LuaRocks config tests #blackbox #b_config", function()
       it("LuaRocks config library dir", function()
          local output = run.luarocks("config --lua-libdir")
          if test_env.TEST_TARGET_OS == "windows" then
-            assert.are.same(output:gsub("\\","/"), site_config.LUA_LIBDIR)
+            assert.are.same(output, site_config.LUA_LIBDIR:gsub("\\","/"))
          else
             assert.are.same(output, site_config.LUA_LIBDIR)
          end
