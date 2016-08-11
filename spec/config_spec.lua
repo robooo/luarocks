@@ -62,7 +62,7 @@ describe("LuaRocks config tests #blackbox #b_config", function()
 
    describe("LuaRocks config - more complex tests", function()
       it("LuaRocks fail system config", function()
-         os.remove(testing_paths.testing_lrprefix .. "/etc/luarocks/config_5_1.lua")
+         os.remove(testing_paths.testing_lrprefix .. "/etc/luarocks/config-" .. env_variables.LUA_VERSION .. ".lua")
          -- os.rename(testing_paths.testing_lrprefix .. "/etc/luarocks/config.lua", testing_paths.testing_lrprefix .. "/etc/luarocks/temp_file")
          assert.is_false(run.luarocks_bool("config --system-config"))
          -- os.rename(testing_paths.testing_lrprefix .. "/etc/luarocks/temp_file", testing_paths.testing_lrprefix .. "/etc/luarocks/config.lua")
