@@ -62,6 +62,7 @@ describe("LuaRocks config tests #blackbox #b_config", function()
    -- end)
 
    describe("LuaRocks config - more complex tests", function()
+      local scdir = testing_paths.testing_lrprefix .. "/etc/luarocks/"
       local versioned_scname = scdir .. "/config-" .. env_variables.LUA_VERSION .. ".lua"
 
       it("LuaRocks fail system config", function()
