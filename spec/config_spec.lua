@@ -67,17 +67,17 @@ describe("LuaRocks config tests #blackbox #b_config", function()
       local scname = scdir .. "/config.lua"
       local sysconfig = ""
       
-      before_each(function()
-         test_env.copy(versioned_scname, "versioned_scname_temp")
-         test_env.copy(scname, "scname_temp")
-      end)
+      -- before_each(function()
+      --    test_env.copy(versioned_scname, "versioned_scname_temp")
+      --    test_env.copy(scname, "scname_temp")
+      -- end)
 
-      after_each(function()
-         test_env.copy("versioned_scname_temp", versioned_scname)
-         test_env.copy("scname_temp", scname)
-         -- os.remove("versioned_scname_temp")
-         -- os.remove("scname_temp")
-      end)
+      -- after_each(function()
+      --    test_env.copy("versioned_scname_temp", versioned_scname)
+      --    test_env.copy("scname_temp", scname)
+      --    -- os.remove("versioned_scname_temp")
+      --    -- os.remove("scname_temp")
+      -- end)
 
       -- it("LuaRocks fail system config", function()
       --    os.rename(versioned_scname, versioned_scname .. "bak")
@@ -113,10 +113,12 @@ describe("LuaRocks config tests #blackbox #b_config", function()
          lfs.mkdir(scdir)
 
          if test_env.TEST_TARGET_OS == "windows" then
+            test_env.copy(versioned_scname, "versioned_scname_temp")
             sysconfig = io.open(versioned_scname, "w+")
             sysconfig:write("if if if")
             sysconfig:close()
             assert.is_false(run.luarocks_bool("config --system-config"))
+            test_env.copy("versioned_scname_temp", versioned_scname)
          else
             sysconfig = io.open(scname, "w+")
             sysconfig:write("if if if")
