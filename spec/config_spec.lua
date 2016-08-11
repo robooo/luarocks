@@ -79,14 +79,12 @@ describe("LuaRocks config tests #blackbox #b_config", function()
          lfs.mkdir(scdir)
 
          if test_env.TEST_TARGET_OS == "windows" then
-            test_env.copy(versioned_scname, "versioned_scname_temp")
             sysconfig = io.open(versioned_scname, "w+")
             sysconfig:write(" ")
             sysconfig:close()
 
             local output = run.luarocks("config --system-config")
             assert.are.same(output, versioned_scname)
-            test_env.copy("versioned_scname_temp", versioned_scname)
          else
             sysconfig = io.open(scname, "w+")
             sysconfig:write(" ")
