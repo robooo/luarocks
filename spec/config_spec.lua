@@ -68,7 +68,7 @@ describe("LuaRocks config tests #blackbox #b_config", function()
       local sysconfig = ""
 
       it("LuaRocks fail system config", function()
-         os.rename(versioned_scname, versioned_scname .. "bak")
+         os.rename(versioned_scname, versioned_scname .. ".bak")
          assert.is_false(run.luarocks_bool("config --system-config"))
          os.rename(versioned_scname .. ".bak", versioned_scname)
       end)
