@@ -1,33 +1,33 @@
-local test_env = require("test/test_environment")
-local run = test_env.run
-local testing_paths = test_env.testing_paths
+-- local test_env = require("test/test_environment")
+-- local run = test_env.run
+-- local testing_paths = test_env.testing_paths
 
-test_env.unload_luarocks()
+-- test_env.unload_luarocks()
 
-local extra_rocks = {
-   "/lua-cjson-2.1.0-1.src.rock",
+-- local extra_rocks = {
+--    "/lua-cjson-2.1.0-1.src.rock",
    
-   -- rocks needed for mock-server
-   "/copas-2.0.1-1.src.rock",
-   "/coxpcall-1.16.0-1.src.rock",
-   "/dkjson-2.5-2.src.rock",
-   "/luafilesystem-1.6.3-1.src.rock",
-   "/luasec-0.6-1.rockspec",
-   "/luasocket-3.0rc1-2.src.rock",
-   "/luasocket-3.0rc1-2.rockspec",
-   "/restserver-0.1-1.src.rock",
-   "/restserver-xavante-0.2-1.src.rock",
-   "/rings-1.3.0-1.src.rock",
-   "/wsapi-1.6.1-1.src.rock",
-   "/wsapi-xavante-1.6.1-1.src.rock",
-   "/xavante-2.4.0-1.src.rock"
-}
+--    -- rocks needed for mock-server
+--    "/copas-2.0.1-1.src.rock",
+--    "/coxpcall-1.16.0-1.src.rock",
+--    "/dkjson-2.5-2.src.rock",
+--    "/luafilesystem-1.6.3-1.src.rock",
+--    "/luasec-0.6-1.rockspec",
+--    "/luasocket-3.0rc1-2.src.rock",
+--    "/luasocket-3.0rc1-2.rockspec",
+--    "/restserver-0.1-1.src.rock",
+--    "/restserver-xavante-0.2-1.src.rock",
+--    "/rings-1.3.0-1.src.rock",
+--    "/wsapi-1.6.1-1.src.rock",
+--    "/wsapi-xavante-1.6.1-1.src.rock",
+--    "/xavante-2.4.0-1.src.rock"
+-- }
 
-describe("LuaRocks upload tests #blackbox #b_upload", function()
+-- describe("LuaRocks upload tests #blackbox #b_upload", function()
 
-   before_each(function()
-      test_env.setup_specs(extra_rocks)
-   end)
+--    before_each(function()
+--       test_env.setup_specs(extra_rocks)
+--    end)
 
    -- it("LuaRocks upload with no flags/arguments", function()
    --    assert.is_false(run.luarocks_bool("upload"))
@@ -45,11 +45,11 @@ describe("LuaRocks upload tests #blackbox #b_upload", function()
    --    assert.is_false(run.luarocks_bool("upload --api-key=\"invalid\" --skip-pack luacov-0.11.0-1.rockspec"))
    -- end)
    
-   it("LuaRocks upload force", function()
-      -- assert.is_true(run.luarocks_bool("install lua-cjson --verbose"))
-      -- assert.is_false(run.luarocks_bool("upload --api-key=\"invalid\" --force luacov-0.11.0-1.rockspec"))
-      -- assert.is_true(run.luarocks_bool("install lua-cjson"))
-   end)
+   -- it("LuaRocks upload force #unix", function()
+   --    assert.is_true(run.luarocks_bool("install lua-cjson"))
+   --    assert.is_false(run.luarocks_bool("upload --api-key=\"invalid\" --force luacov-0.11.0-1.rockspec"))
+   --    assert.is_true(run.luarocks_bool("install lua-cjson"))
+   -- end)
 
    -- describe("LuaRocks upload tests with Xavante server #mock", function()
    --    before_each(function()
@@ -69,6 +69,6 @@ describe("LuaRocks upload tests #blackbox #b_upload", function()
    --       assert.is_true(run.luarocks_bool("upload --skip-pack " .. testing_paths.testing_server .. "/luasocket-3.0rc1-2.rockspec " .. test_env.APPVEYOR_OPENSSL .. " --api-key=123", {LUAROCKS_CONFIG = testing_paths.testing_dir .. "/luarocks_site.lua"}))
    --    end)
    -- end)
-end)
+-- end)
 
 
