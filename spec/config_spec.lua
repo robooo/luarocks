@@ -68,6 +68,7 @@ describe("LuaRocks config tests #blackbox #b_config", function()
       local sysconfig = ""
       
       before_each(function()
+         print("HEREEEE " .. versioned_scname)
          test_env.copy(versioned_scname, "versioned_scname_temp")
          test_env.copy(scname, "scname_temp")
       end)
