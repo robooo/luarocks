@@ -66,6 +66,18 @@ describe("LuaRocks config tests #blackbox #b_config", function()
       local versioned_scname = scdir .. "/config-" .. env_variables.LUA_VERSION .. ".lua"
       local scname = scdir .. "/config.lua"
       local sysconfig = ""
+      
+      before_each(function()
+         test_env.copy(versioned_scname, "versioned_scname_temp")
+         test_env.copy(scname, "scname_temp")
+      end)
+
+      after_each(function()
+         test_env.copy("versioned_scname_temp", versioned_scname)
+         test_env.copy("scname_temp", scname)
+         os.remove("versioned_scname_temp")
+         os.remove("scname_temp")
+      end)
 
       -- it("LuaRocks fail system config", function()
       --    os.rename(versioned_scname, versioned_scname .. "bak")
