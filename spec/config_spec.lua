@@ -14,51 +14,51 @@ describe("LuaRocks config tests #blackbox #b_config", function()
       site_config = require("luarocks.site_config")
    end)
 
-   describe("LuaRocks config - basic tests", function()
-      it("LuaRocks config with no flags/arguments", function()
-         assert.is_false(run.luarocks_bool("config"))
-      end)
+   -- describe("LuaRocks config - basic tests", function()
+   --    it("LuaRocks config with no flags/arguments", function()
+   --       assert.is_false(run.luarocks_bool("config"))
+   --    end)
       
-      it("LuaRocks config include dir", function()
-         local output = run.luarocks("config --lua-incdir")
-         if test_env.TEST_TARGET_OS == "windows" then
-            assert.are.same(output, site_config.LUA_INCDIR:gsub("\\","/"))
-         else
-            assert.are.same(output, site_config.LUA_INCDIR)
-         end
-      end)
+   --    it("LuaRocks config include dir", function()
+   --       local output = run.luarocks("config --lua-incdir")
+   --       if test_env.TEST_TARGET_OS == "windows" then
+   --          assert.are.same(output, site_config.LUA_INCDIR:gsub("\\","/"))
+   --       else
+   --          assert.are.same(output, site_config.LUA_INCDIR)
+   --       end
+   --    end)
       
-      it("LuaRocks config library dir", function()
-         local output = run.luarocks("config --lua-libdir")
-         if test_env.TEST_TARGET_OS == "windows" then
-            assert.are.same(output, site_config.LUA_LIBDIR:gsub("\\","/"))
-         else
-            assert.are.same(output, site_config.LUA_LIBDIR)
-         end
-      end)
+   --    it("LuaRocks config library dir", function()
+   --       local output = run.luarocks("config --lua-libdir")
+   --       if test_env.TEST_TARGET_OS == "windows" then
+   --          assert.are.same(output, site_config.LUA_LIBDIR:gsub("\\","/"))
+   --       else
+   --          assert.are.same(output, site_config.LUA_LIBDIR)
+   --       end
+   --    end)
       
-      it("LuaRocks config lua version", function()
-         local output = run.luarocks("config --lua-ver")
-         local lua_version = _VERSION:gsub("Lua ", "")
-         if test_env.LUAJIT_V then
-            lua_version = "5.1"
-         end
-         assert.are.same(output, lua_version)
-      end)
+   --    it("LuaRocks config lua version", function()
+   --       local output = run.luarocks("config --lua-ver")
+   --       local lua_version = _VERSION:gsub("Lua ", "")
+   --       if test_env.LUAJIT_V then
+   --          lua_version = "5.1"
+   --       end
+   --       assert.are.same(output, lua_version)
+   --    end)
       
-      it("LuaRocks config rock trees", function()
-         assert.is_true(run.luarocks_bool("config --rock-trees"))
-      end)
+   --    it("LuaRocks config rock trees", function()
+   --       assert.is_true(run.luarocks_bool("config --rock-trees"))
+   --    end)
       
-      it("LuaRocks config user config", function()
-         local user_config_path = run.luarocks("config --user-config")
-         assert.is.truthy(lfs.attributes(user_config_path))
-      end)
+   --    it("LuaRocks config user config", function()
+   --       local user_config_path = run.luarocks("config --user-config")
+   --       assert.is.truthy(lfs.attributes(user_config_path))
+   --    end)
       
-      it("LuaRocks config missing user config", function()
-         assert.is_false(run.luarocks_bool("config --user-config", {LUAROCKS_CONFIG = "missing_file.lua"}))
-      end)
-   end)
+   --    it("LuaRocks config missing user config", function()
+   --       assert.is_false(run.luarocks_bool("config --user-config", {LUAROCKS_CONFIG = "missing_file.lua"}))
+   --    end)
+   -- end)
 
    -- describe("LuaRocks config - more complex tests", function()
    --    it("LuaRocks fail system config", function()
