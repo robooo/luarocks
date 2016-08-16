@@ -28,14 +28,14 @@ before_test:
 - luarocks install busted 1> NUL 2> NUL
 
 test_script:
-- busted --lpath=.//?.lua --exclude-tags=ssh,unix,mock -Xhelper appveyor
+- busted --lpath=.//?.lua --exclude-tags=ssh,unix,mock -t special -Xhelper appveyor
 # --helper=test/test_environment.lua -Xhelper os=windows --lpath=.//?.lua --verbose
 # --helper="C:\projects\luarocks\test\test_environment.lua" --lpath="./?.lua"
-# 
+
 after_test:
 - if "%LUA_VER:~0,3%"=="5.1" (luarocks show bit32 || luarocks install bit32)
 - luarocks install luacov
 - luarocks install luacov-coveralls
-- luacov-coveralls -v -c test/luacov.config
+# - luacov-coveralls -v -c test/luacov.config
 - luacov -c test/luacov.config
-- grep "Summary" -B1 -A1000 test/luacov.report.out
+# - grep "Summary" -B1 -A1000 test/luacov.report.out

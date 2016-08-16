@@ -65,7 +65,13 @@ describe("LuaRocks config tests #blackbox #b_config", function()
       local scdir = testing_paths.testing_lrprefix .. "/etc/luarocks"
       local versioned_scname = scdir .. "/config-" .. env_variables.LUA_VERSION .. ".lua"
       local scname = scdir .. "/config.lua"
-      local sysconfig = ""
+
+      local configfile
+      if test_env.TEST_TARGET_OS == "windows" then
+         configfile = versioned_scname
+      else
+         configfile = scname
+      end
 
       it("LuaRocks fail system config", function()
          os.rename(versioned_scname, versioned_scname .. ".bak")
