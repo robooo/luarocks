@@ -7,10 +7,10 @@ environment:
 
   matrix:
   - LUA_VER: 5.1.5
-  - LUA_VER: 5.2.4
-  - LUA_VER: 5.3.1
-  # - LJ_VER: 2.0.4
-  # - LJ_VER: 2.1
+  # - LUA_VER: 5.2.4
+  # - LUA_VER: 5.3.1
+  - LJ_VER: 2.0.4
+  - LJ_VER: 2.1
 
 init:
 # Setup Lua development/build environment
