@@ -70,7 +70,7 @@ describe("Basic tests #blackbox #b_util", function()
    -- precedence over config.lua (config-5.x.lua is installed by default on Windows,
    -- but not on Unix, so on Unix the os.rename commands below will fail silently, but this is harmless)
    describe("LuaRocks config - more complex tests #special", function()
-      local scdir = testing_paths.testing_lrprefix .. "/etc/luarocks/"
+      local scdir = testing_paths.testing_lrprefix .. "/etc/luarocks"
       local versioned_scname = scdir .. "/config-" .. env_variables.LUA_VERSION .. ".lua"
       local scname = scdir .. "/config.lua"
 
