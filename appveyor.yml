@@ -29,10 +29,10 @@ shallow_clone: true
 environment:
   matrix:
   - LUA: "lua 5.1"
-  - LUA: "lua 5.2"
-  - LUA: "lua 5.3"
-  - LUA: "luajit 2.0"
-  - LUA: "luajit 2.1"
+  # - LUA: "lua 5.2"
+  # - LUA: "lua 5.3"
+  # - LUA: "luajit 2.0"
+  # - LUA: "luajit 2.1"
 
 before_build:
   - set PATH=C:\Python27\Scripts;%PATH% # Add directory containing 'pip' to PATH
@@ -40,14 +40,16 @@ before_build:
   - hererocks env --%LUA% -rlatest
   - call env\bin\activate
   - luarocks install busted
-  
+
 # install:
 #   - "%PYTHON%/Scripts/pip.exe install hererocks"
 #   - "%PYTHON%/Scripts/hererocks-script.py lua_install -r^ --%LUA_VER%"
 
-before_test:
-  - luarocks install busted 1> NUL 2> NUL
-
+# before_test:
+#   - luarocks install busted 1> NUL 2> NUL
+build_script:
+  - luarocks make
+  
 test_script:
   - busted --lpath=.//?.lua --exclude-tags=ssh,unix,mock -Xhelper appveyor
 # --helper=test/test_environment.lua -Xhelper os=windows --lpath=.//?.lua --verbose
