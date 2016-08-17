@@ -27,7 +27,7 @@ environment:
 # - call .appveyor\build.bat 1> NUL 2> NUL
 install:
   - "%PYTHON%/Scripts/pip.exe install hererocks"
-  - "%PYTHON%/Scripts/hererocks lua_install -r^ --$LUA"
+  - "%PYTHON%/Scripts/hererocks-script.py lua_install -r^ --$LUA_VER"
 
 before_test:
   - luarocks install busted 1> NUL 2> NUL
