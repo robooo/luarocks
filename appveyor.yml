@@ -47,9 +47,7 @@ before_build:
 
 # before_test:
 #   - luarocks install busted 1> NUL 2> NUL
-build_script:
-  - luarocks make
-  
+
 test_script:
   - busted --lpath=.//?.lua --exclude-tags=ssh,unix,mock -Xhelper appveyor
 # --helper=test/test_environment.lua -Xhelper os=windows --lpath=.//?.lua --verbose
