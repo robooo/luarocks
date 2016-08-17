@@ -34,7 +34,7 @@ environment:
   # - LUA: "luajit 2.0"
   # - LUA: "luajit 2.1"
 
-before_build:
+before_test:
   - set PATH=C:\Python27\Scripts;%PATH% # Add directory containing 'pip' to PATH
   - pip install hererocks
   - hererocks env --%LUA% -rlatest
@@ -47,11 +47,8 @@ before_build:
 
 # before_test:
 #   - luarocks install busted 1> NUL 2> NUL
-
 test_script:
   - busted --lpath=.//?.lua --exclude-tags=ssh,unix,mock -Xhelper appveyor
-# --helper=test/test_environment.lua -Xhelper os=windows --lpath=.//?.lua --verbose
-# --helper="C:\projects\luarocks\test\test_environment.lua" --lpath="./?.lua"
 
 after_test:
   - if "%LUA_VER:~0,3%"=="5.1" (luarocks show bit32 || luarocks install bit32)
