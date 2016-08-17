@@ -37,7 +37,7 @@ environment:
 before_build:
   - set PATH=C:\Python27\Scripts;%PATH% # Add directory containing 'pip' to PATH
   - pip install hererocks
-  - hererocks env --%LUA% -rlatest
+  - hererocks env --%LUA% -r^
   - call env\bin\activate
   - luarocks install busted
 
