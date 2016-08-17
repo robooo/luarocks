@@ -1,33 +1,33 @@
--- local test_env = require("test/test_environment")
--- local lfs = require("lfs")
--- local run = test_env.run
--- local testing_paths = test_env.testing_paths
+local test_env = require("test/test_environment")
+local lfs = require("lfs")
+local run = test_env.run
+local testing_paths = test_env.testing_paths
 
--- test_env.unload_luarocks()
+test_env.unload_luarocks()
 
--- local extra_rocks = {
---    "/lmathx-20120430.51-1.src.rock",
---    "/lmathx-20120430.51-1.rockspec",
---    "/lmathx-20120430.52-1.src.rock",
---    "/lmathx-20120430.52-1.rockspec",
---    "/lmathx-20150505-1.src.rock",
---    "/lmathx-20150505-1.rockspec",
---    "/lpeg-0.12-1.src.rock",
---    "/lpty-1.0.1-1.src.rock",
---    "/luadoc-3.0.1-1.src.rock",
---    "/luafilesystem-1.6.3-1.src.rock",
---    "/lualogging-1.3.0-1.src.rock",
---    "/luarepl-0.4-1.src.rock",
---    "/luasec-0.6-1.rockspec",
---    "/luasocket-3.0rc1-1.src.rock",
---    "/luasocket-3.0rc1-1.rockspec",
---    "/lxsh-0.8.6-2.src.rock",
---    "/lxsh-0.8.6-2.rockspec",
---    "/stdlib-41.0.0-1.src.rock",
---    "/validate-args-1.5.4-1.rockspec"
--- }
+local extra_rocks = {
+   "/lmathx-20120430.51-1.src.rock",
+   "/lmathx-20120430.51-1.rockspec",
+   "/lmathx-20120430.52-1.src.rock",
+   "/lmathx-20120430.52-1.rockspec",
+   "/lmathx-20150505-1.src.rock",
+   "/lmathx-20150505-1.rockspec",
+   "/lpeg-0.12-1.src.rock",
+   "/lpty-1.0.1-1.src.rock",
+   "/luadoc-3.0.1-1.src.rock",
+   "/luafilesystem-1.6.3-1.src.rock",
+   "/lualogging-1.3.0-1.src.rock",
+   "/luarepl-0.4-1.src.rock",
+   "/luasec-0.6-1.rockspec",
+   "/luasocket-3.0rc1-1.src.rock",
+   "/luasocket-3.0rc1-1.rockspec",
+   "/lxsh-0.8.6-2.src.rock",
+   "/lxsh-0.8.6-2.rockspec",
+   "/stdlib-41.0.0-1.src.rock",
+   "/validate-args-1.5.4-1.rockspec"
+}
 
--- describe("LuaRocks build tests #blackbox #b_build", function()
+describe("LuaRocks build tests #blackbox #b_build", function()
 
 --    before_each(function()
 --       test_env.setup_specs(extra_rocks)
@@ -198,4 +198,4 @@
 --          assert.is_false(run.luarocks_bool("build " .. testing_paths.testing_dir .. "/testfiles/invalid_patch-0.1-1.rockspec"))
 --       end)
 --    end)
--- end)
+end)
