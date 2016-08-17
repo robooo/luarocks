@@ -29,9 +29,9 @@ local extra_rocks = {
 
 describe("LuaRocks build tests #blackbox #b_build", function()
 
---    before_each(function()
---       test_env.setup_specs(extra_rocks)
---    end)
+   before_each(function()
+      test_env.setup_specs(extra_rocks)
+   end)
 
 --    describe("LuaRocks build - basic testing set", function()
 --       it("LuaRocks build with no flags/arguments", function()
@@ -43,7 +43,7 @@ describe("LuaRocks build tests #blackbox #b_build", function()
 --       end)
 --    end)
 
---    describe("LuaRocks build - building lpeg with flags", function()
+   describe("LuaRocks build - building lpeg with flags", function()
 --       it("LuaRocks build fail build permissions", function()
 --          if test_env.TEST_TARGET_OS == "osx" or test_env.TEST_TARGET_OS == "linux" then
 --             assert.is_false(run.luarocks_bool("build --tree=/usr lpeg"))
@@ -79,7 +79,7 @@ describe("LuaRocks build tests #blackbox #b_build", function()
 --          assert.is_false(run.luarocks_bool("build --tree=\"\" lpeg"))
 --          assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec"))
 --       end)
---    end)
+   end)
 
 --    describe("LuaRocks build - basic builds", function()
 --       it("LuaRocks build luadoc", function()
