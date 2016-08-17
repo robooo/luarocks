@@ -14,10 +14,10 @@ shallow_clone: true
   # - LJ_VER: 2.0.4
   # - LJ_VER: 2.1
 
-# init:
+init:
 # Setup Lua development/build environment
 # Make VS 2015 command line tools available
-  # - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
+  - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
 
 # install:
 # Setup Lua development/build environment
