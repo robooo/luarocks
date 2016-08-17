@@ -3,39 +3,45 @@ version: 2.2.1.{build}-test
 shallow_clone: true
 
 environment:
-  LUAROCKS_VER: 2.3.0
-
+  # LUAROCKS_VER: 2.3.0
+  - PYTHON: "C:\\Python27"
+    PYTHON_VERSION: "2.7.8"
+    PYTHON_ARCH: "32"
+  
   matrix:
   - LUA_VER: 5.1.5
   # - LUA_VER: 5.2.4
   # - LUA_VER: 5.3.1
-  - LJ_VER: 2.0.4
-  - LJ_VER: 2.1
+  # - LJ_VER: 2.0.4
+  # - LJ_VER: 2.1
 
-init:
+# init:
 # Setup Lua development/build environment
 # Make VS 2015 command line tools available
-- call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
+  # - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
 
-install:
+# install:
 # Setup Lua development/build environment
-- call .appveyor\install.bat 1> NUL 2> NUL
+# - call .appveyor\install.bat 1> NUL 2> NUL
 
-build_script:
-- call .appveyor\build.bat 1> NUL 2> NUL
+# build_script:
+# - call .appveyor\build.bat 1> NUL 2> NUL
+install:
+  - "%PYTHON%/Scripts/pip.exe install hererocks"
+  - hererocks lua_install -r^ --$LUA
 
 before_test:
-- luarocks install busted 1> NUL 2> NUL
+  - luarocks install busted 1> NUL 2> NUL
 
 test_script:
-- busted --lpath=.//?.lua --exclude-tags=ssh,unix,mock -Xhelper appveyor
+  - busted --lpath=.//?.lua --exclude-tags=ssh,unix,mock -Xhelper appveyor
 # --helper=test/test_environment.lua -Xhelper os=windows --lpath=.//?.lua --verbose
 # --helper="C:\projects\luarocks\test\test_environment.lua" --lpath="./?.lua"
 
 after_test:
-- if "%LUA_VER:~0,3%"=="5.1" (luarocks show bit32 || luarocks install bit32)
-- luarocks install luacov
-- luarocks install luacov-coveralls
+  - if "%LUA_VER:~0,3%"=="5.1" (luarocks show bit32 || luarocks install bit32)
+  - luarocks install luacov
+  - luarocks install luacov-coveralls
 # - luacov-coveralls -v -c test/luacov.config
-- luacov -c test/luacov.config
+  - luacov -c test/luacov.config
 # - grep "Summary" -B1 -A1000 test/luacov.report.out
