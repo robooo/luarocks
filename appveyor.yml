@@ -4,11 +4,11 @@ shallow_clone: true
 
 environment:
   matrix:
-  - LUA: "lua 5.1"
-  - LUA: "lua 5.2"
+  # - LUA: "lua 5.1"
+  # - LUA: "lua 5.2"
   - LUA: "lua 5.3"
-  - LUA: "luajit 2.0"
-  - LUA: "luajit 2.1"
+  # - LUA: "luajit 2.0"
+  # - LUA: "luajit 2.1"
 
 
 # environment:
@@ -41,16 +41,11 @@ before_build:
   - pip install hererocks
   - hererocks env --%LUA% -rlatest
   - call env\bin\activate
-  # - luarocks install busted
-
-# install:
-#   - "%PYTHON%/Scripts/pip.exe install hererocks"
-#   - "%PYTHON%/Scripts/hererocks-script.py lua_install -r^ --%LUA_VER%"
 
 # before_test:
 #   - luarocks install busted 1> NUL 2> NUL
 build_script:
-  - luarocks install busted
+  - luarocks install busted 1> NUL 2> NUL
 
 test_script:
   - busted --lpath=.//?.lua --exclude-tags=ssh,unix,mock -Xhelper appveyor
