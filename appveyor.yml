@@ -48,7 +48,9 @@ test_script:
 after_test:
   - if "%LUA%"=="lua 5.1" (luarocks show bit32 || luarocks install bit32)
   - luarocks install luacov
-  - luarocks install luacov-coveralls
-  - luacov-coveralls -v -c test\luacov.config
+  - pip install codecov
+  # - luarocks install luacov-coveralls
+  # - luacov-coveralls -v -c test\luacov.config
   - luacov -c test/luacov.config
+  - cd test && codecov
 # - grep "Summary" -B1 -A1000 test/luacov.report.out
