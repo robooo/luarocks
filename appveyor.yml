@@ -8,7 +8,7 @@ environment:
   matrix:
   # - LUA: "lua 5.1"
   # - LUA: "lua 5.2"
-  - LUA_VER: "lua 5.3"
+  - LUA_VER: 5.3
   # - LUA: "luajit 2.0"
   # - LUA: "luajit 2.1"
 
@@ -30,6 +30,8 @@ before_test:
 - luarocks install busted 1> NUL 2> NUL
 
 ##############################################################################################
+
+##########################NEW#############################################################
 # before_build:
 #   - set PATH=C:\Python27\Scripts;%PATH% # Add directory containing 'pip' to PATH
 #   - pip install hererocks
