@@ -121,7 +121,7 @@ function test_env.execute_helper(command, print_command, env_variables)
       end
    end
 
-   final_command = final_command .. command
+   final_command = final_command .. command .. " 2>&1"
 
    return final_command
 end
