@@ -56,7 +56,7 @@ script:
 
 after_success:
   # - luacov-coveralls -c $TRAVIS_BUILD_DIR/test/luacov.config --exclude $TRAVIS_BUILD_DIR/test/
-  - bash <(curl -s https://codecov.io/bash)
+  - cd $TRAVIS_BUILD_DIR/test/ && bash <(curl -s https://codecov.io/bash)
   - luacov -c $TRAVIS_BUILD_DIR/test/luacov.config
 
   - grep "Summary" -B1 -A1000 $TRAVIS_BUILD_DIR/test/luacov.report.out
