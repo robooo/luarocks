@@ -79,7 +79,7 @@ describe("LuaRocks build tests #blackbox #b_build", function()
    --       assert.is_false(run.luarocks_bool("build --tree=\"\" lpeg"))
    --       assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/0.12-1/lpeg-0.12-1.rockspec"))
    --    end)
-   -- end)
+   end)
 
 --    describe("LuaRocks build - basic builds", function()
 --       it("LuaRocks build luadoc", function()
