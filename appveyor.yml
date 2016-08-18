@@ -39,8 +39,8 @@ before_test:
 #   - hererocks env --%LUA% -rlatest
 #   - call env\bin\activate
 
-build_script:
-  - luarocks install busted 1> NUL 2> NUL
+# build_script:
+#   - luarocks install busted 1> NUL 2> NUL
 
 test_script:
   - busted --lpath=.//?.lua --exclude-tags=ssh,unix,mock -Xhelper appveyor
