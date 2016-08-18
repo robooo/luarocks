@@ -46,7 +46,7 @@ test_script:
   - busted --lpath=.//?.lua --exclude-tags=ssh,unix,mock -Xhelper appveyor
 
 after_test:
-  - if "%LUA_VER:~0,3%"=="5.1" (luarocks show bit32 || luarocks install bit32)
+  # - if "%LUA:%"=="lua 5.1" (luarocks show bit32 || luarocks install bit32)
   - luarocks install luacov
   - luarocks install luacov-coveralls
   - luacov-coveralls -v -c test\luacov.config
