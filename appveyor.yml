@@ -29,11 +29,11 @@ init:
   - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
 
 install:
-Setup Lua development/build environment
-- call .appveyor\install.bat 1> NUL 2> NUL
+# Setup Lua development/build environment
+  - call .appveyor\install.bat 1> NUL 2> NUL
 
 build_script:
-- call .appveyor\build.bat 1> NUL 2> NUL
+  - call .appveyor\build.bat 1> NUL 2> NUL
 # 
 
 # before_build:
