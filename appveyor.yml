@@ -20,24 +20,24 @@ init:
 - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
 
 #######################OLD########################################################
-# install:
-# # Setup Lua development/build environment
-# - call .appveyor\install.bat
+install:
+# Setup Lua development/build environment
+- call .appveyor\install.bat
 
-# build_script:
-# - call .appveyor\build.bat
+build_script:
+- call .appveyor\build.bat
 
-# before_test:
-# - luarocks install busted 1> NUL 2> NUL
+before_test:
+- luarocks install busted 1> NUL 2> NUL
 
 ##############################################################################################
 
 ##########################NEW#############################################################
-before_build:
-  - set PATH=C:\Python27\Scripts;%PATH% # Add directory containing 'pip' to PATH
-  - pip install hererocks
-  - hererocks env --%LUA% -rlatest
-  - call env\bin\activate
+# before_build:
+#   - set PATH=C:\Python27\Scripts;%PATH% # Add directory containing 'pip' to PATH
+#   - pip install hererocks
+#   - hererocks env --%LUA% -rlatest
+#   - call env\bin\activate
 
 build_script:
   - luarocks install busted 1> NUL 2> NUL
@@ -48,9 +48,9 @@ test_script:
 after_test:
   - if "%LUA%"=="lua 5.1" (luarocks show bit32 || luarocks install bit32)
   - luarocks install luacov
-  - pip install codecov
+  # - pip install codecov
   # - luarocks install luacov-coveralls
   # - luacov-coveralls -v -c test\luacov.config
   - luacov -c test/luacov.config
-  - cd test && codecov
+  # - cd test && codecov
 # - grep "Summary" -B1 -A1000 test/luacov.report.out
