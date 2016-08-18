@@ -28,24 +28,24 @@ init:
 # Make VS 2015 command line tools available
   - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
 
-# install:
-# Setup Lua development/build environment
-# - call .appveyor\install.bat 1> NUL 2> NUL
+install:
+Setup Lua development/build environment
+- call .appveyor\install.bat 1> NUL 2> NUL
 
-# build_script:
-# - call .appveyor\build.bat 1> NUL 2> NUL
+build_script:
+- call .appveyor\build.bat 1> NUL 2> NUL
 # 
 
-before_build:
-  - set PATH=C:\Python27\Scripts;%PATH% # Add directory containing 'pip' to PATH
-  - pip install hererocks
-  - hererocks env --%LUA% -rlatest
-  - call env\bin\activate
+# before_build:
+#   - set PATH=C:\Python27\Scripts;%PATH% # Add directory containing 'pip' to PATH
+#   - pip install hererocks
+#   - hererocks env --%LUA% -rlatest
+#   - call env\bin\activate
 
-# before_test:
-#   - luarocks install busted 1> NUL 2> NUL
-build_script:
+before_test:
   - luarocks install busted 1> NUL 2> NUL
+# build_script:
+  # - luarocks install busted 1> NUL 2> NUL
 
 test_script:
   - busted --lpath=.//?.lua --exclude-tags=ssh,unix,mock -Xhelper appveyor
