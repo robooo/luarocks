@@ -39,8 +39,6 @@ before_build:
   - hererocks env --%LUA% -rlatest
   - call env\bin\activate
 
-before_test:
-  - luarocks install busted 1> NUL 2> NUL
 build_script:
   - luarocks install busted 1> NUL 2> NUL
 
