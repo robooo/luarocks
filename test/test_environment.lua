@@ -14,6 +14,7 @@ USAGE
 ARGUMENTS
    env=<type>     Set type of environment to use ("minimal" or "full",
                   default: "minimal").
+   noreset        Don't reset environment after each test
    clean          Remove existing testing environment.
    travis         Add if running on TravisCI.
    os=<type>      Set OS ("linux", "osx", or "windows").
@@ -35,12 +36,24 @@ local function exists(path)
    return lfs.attributes(path, "mode") ~= nil
 end
 
+function test_env.quiet(commad)
+   if not test_env.VERBOSE then
+      if test_env.TEST_TARGET_OS == "linux" or test_env.TEST_TARGET_OS == "osx" then
+         return commad .. " 1> /dev/null 2> /dev/null"
+      elseif test_env.TEST_TARGET_OS == "windows" then
+         return commad .. " 2> NUL 1> NUL"
+      end
+   else
+      return command
+   end
+end
+
 --- Helper function for execute_bool and execute_output
 -- @param command string: command to execute
 -- @param print_command boolean: print command if 'true'
 -- @param env_variables table: table of environment variables to export {FOO="bar", BAR="foo"}
 -- @return final_command string: concatenated command to execution
-local function execute_helper(command, print_command, env_variables)
+function test_env.execute_helper(command, print_command, env_variables)
    local final_command = ""
 
    if print_command then 
@@ -65,7 +78,7 @@ end
 -- In Lua5.1 os.execute returns numeric value, but in Lua5.2+ returns boolean
 -- @return true/false boolean: status of the command execution
 local function execute_bool(command, print_command, env_variables)
-   command = execute_helper(command, print_command, env_variables)
+   command = test_env.execute_helper(command, print_command, env_variables)
    
    local ok = os.execute(command)
    return ok == true or ok == 0
@@ -74,7 +87,7 @@ end
 --- Execute command and returns output of command
 -- @return output string: output the command execution
 local function execute_output(command, print_command, env_variables)
-   command = execute_helper(command, print_command, env_variables)
+   command = test_env.execute_helper(command, print_command, env_variables)
 
    local file = assert(io.popen(command))
    local output = file:read('*all')
@@ -96,12 +109,17 @@ end
 function test_env.set_args()
    -- if at least Lua/LuaJIT version argument was found on input start to parse other arguments to env. variables
    test_env.TYPE_TEST_ENV = "minimal"
+   test_env.RESET_ENV = true
 
    for _, argument in ipairs(arg) do
       if argument:find("^env=") then
          test_env.TYPE_TEST_ENV = argument:match("^env=(.*)$")
+      elseif argument == "noreset" then
+         test_env.RESET_ENV = false
       elseif argument == "clean" then
          test_env.TEST_ENV_CLEAN = true
+      elseif argument == "verbose" then
+         test_env.VERBOSE = true
       elseif argument == "travis" then
          test_env.TRAVIS = true
       elseif argument:find("^os=") then
@@ -333,6 +351,7 @@ local function reset_environment(testing_paths, md5sums)
       test_env.remove_dir(testing_paths.testing_tree)
       execute_bool("cp -a " .. testing_paths.testing_tree_copy .. "/. " .. testing_paths.testing_tree)
    end
+
    if testing_sys_tree_md5 ~= md5sums.testing_sys_tree_copy_md5 then
       test_env.remove_dir(testing_paths.testing_sys_tree)
       execute_bool("cp -a " .. testing_paths.testing_sys_tree_copy .. "/. " .. testing_paths.testing_sys_tree)
@@ -403,21 +422,18 @@ function test_env.setup_specs(extra_rocks)
       end
    end
 
-   reset_environment(test_env.testing_paths, test_env.md5sums, test_env.env_variables)
+   if test_env.RESET_ENV then
+      reset_environment(test_env.testing_paths, test_env.md5sums, test_env.env_variables)
+   end
 end
 
---- Helper function for tests which needs luasocket installed
-function test_env.need_luasocket()
-   if test_env.run.luarocks_nocov("show luasocket") then
+--- Test if required rock is installed if not, install it
+function test_env.need_rock(rock)
+   print("Check if " .. rock .. " is installed")
+   if test_env.run.luarocks_noprint_nocov(test_env.quiet("show " .. rock)) then
       return true
    else
-      local testing_cache = test_env.testing_paths.testing_cache .. "/"
-      local luasocket_rock = "luasocket-3.0rc1-1." .. test_env.platform .. ".rock"
-      if not exists(testing_cache .. luasocket_rock) then
-         test_env.run.luarocks_nocov("build --pack-binary-rock luasocket 3.0rc1-1")
-         os.rename(luasocket_rock, testing_cache .. luasocket_rock)
-      end
-      return test_env.run.luarocks_nocov("install " .. testing_cache .. luasocket_rock)
+      return test_env.run.luarocks_noprint_nocov(test_env.quiet("install " .. rock))
    end
 end
 
@@ -524,18 +540,20 @@ local function clean()
    test_env.remove_subdirs(test_env.testing_paths.testing_dir, "testing[_%-]")
    test_env.remove_files(test_env.testing_paths.testing_dir, "testing_")
    test_env.remove_files(test_env.testing_paths.testing_dir, "luacov")
+   test_env.remove_files(test_env.testing_paths.testing_dir, "upload_config")
    print("Cleaning done!")
 end
 
 --- Install luarocks into testing prefix.
 local function install_luarocks(install_env_vars)
    -- Configure LuaRocks testing environment
-   local configure_cmd = "./configure --with-lua=" .. test_env.testing_paths.luadir ..
-      " --prefix=" .. test_env.testing_paths.testing_lrprefix ..
-      " && make clean"
-
-   assert(execute_bool(configure_cmd, false, install_env_vars))
-   assert(execute_bool("make src/luarocks/site_config.lua && make dev", false, install_env_vars))
+   title("Installing LuaRocks")
+   local configure_cmd = "./configure --with-lua=" .. test_env.testing_paths.luadir .. " --prefix=" .. test_env.testing_paths.testing_lrprefix
+   assert(execute_bool(test_env.quiet(configure_cmd), false, install_env_vars))
+   assert(execute_bool(test_env.quiet("make clean"), false, install_env_vars))
+   assert(execute_bool(test_env.quiet("make src/luarocks/site_config.lua"), false, install_env_vars))
+   assert(execute_bool(test_env.quiet("make dev"), false, install_env_vars))
+   print("LuaRocks installed correctly!")
 end
 
 ---
