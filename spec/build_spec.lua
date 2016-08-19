@@ -72,7 +72,7 @@ describe("LuaRocks build tests #blackbox #b_build", function()
       -- end)
       
       it("LuaRocks build lpeg only-sources example", function()
-         assert.is_true(run.luarocks_bool("build --only-sources=\"http://example.com\" lpeg --verbose"))
+         assert.is_false(run.luarocks_bool("build --only-sources=\"http://example.com\" lpeg"))
          assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/1.0.0-1/lpeg-1.0.0-1.rockspec"))
       end)
       
@@ -142,7 +142,11 @@ describe("LuaRocks build tests #blackbox #b_build", function()
       end
 
       it("LuaRocks build luasec only deps", function()
-         assert.is_true(run.luarocks_bool(test_env.quiet("build luasec --only-deps")))
+         if test_env.APPVEYOR then
+            assert.is_true(run.luarocks_bool(test_env.quiet("build luasec " .. test_env.APPVEYOR_OPENSSL .. " --only-deps")))
+         else
+            assert.is_true(run.luarocks_bool(test_env.quiet("build luasec --only-deps")))
+         end
          assert.is_false(run.luarocks_bool("show luasec"))
          assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/luasec/0.6-1/luasec-0.6-1.rockspec"))
       end)
