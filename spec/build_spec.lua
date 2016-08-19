@@ -12,7 +12,8 @@ local extra_rocks = {
    "/lmathx-20120430.52-1.rockspec",
    "/lmathx-20150505-1.src.rock",
    "/lmathx-20150505-1.rockspec",
-   "/lpeg-0.12-1.src.rock",
+   -- "/lpeg-0.12-1.src.rock",
+   "/lpeg-1.0.0-1.rockspec",
    "/lpty-1.0.1-1.src.rock",
    "/luadoc-3.0.1-1.src.rock",
    "/luafilesystem-1.6.3-1.src.rock",
@@ -56,9 +57,9 @@ describe("LuaRocks build tests #blackbox #b_build", function()
       --    end
       -- end)
       
-      -- it("LuaRocks build lpeg verbose", function()
-      --    assert.is_true(run.luarocks_bool(test_env.quiet("build --verbose lpeg")))
-      -- end)
+      it("LuaRocks build lpeg verbose", function()
+         assert.is_true(run.luarocks_bool(test_env.quiet("build --verbose lpeg")))
+      end)
       
    --    it("LuaRocks build lpeg branch=master", function()
    --       assert.is_true(run.luarocks_bool("build --branch=master lpeg"))
@@ -82,9 +83,9 @@ describe("LuaRocks build tests #blackbox #b_build", function()
    end)
 
 --    describe("LuaRocks build - basic builds", function()
-      it("LuaRocks build luadoc", function()
-         assert.is_true(run.luarocks_bool(test_env.quiet("build luadoc")))
-      end)
+      -- it("LuaRocks build luadoc", function()
+      --    assert.is_true(run.luarocks_bool(test_env.quiet("build luadoc")))
+      -- end)
       
 --       it("LuaRocks build luacov diff version", function()
 --          assert.is_true(run.luarocks_bool("build luacov 0.11.0-1"))
