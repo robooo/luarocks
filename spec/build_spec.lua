@@ -20,8 +20,8 @@ local extra_rocks = {
    "/lualogging-1.3.0-1.src.rock",
    "/luarepl-0.4-1.src.rock",
    "/luasec-0.6-1.rockspec",
-   "/luasocket-3.0rc1-1.src.rock",
-   "/luasocket-3.0rc1-1.rockspec",
+   "/luasocket-3.0rc1-2.src.rock",
+   "/luasocket-3.0rc1-2.rockspec",
    "/lxsh-0.8.6-2.src.rock",
    "/lxsh-0.8.6-2.rockspec",
    "/stdlib-41.0.0-1.src.rock",
@@ -72,9 +72,9 @@ describe("LuaRocks build tests #blackbox #b_build", function()
       -- end)
       
       it("LuaRocks build lpeg only-sources example", function()
-         -- assert.is_true(run.luarocks_bool("download --rockspec lpeg"))
-         -- assert.is_false(run.luarocks_bool("build --only-sources=\"http://example.com\" ./lpeg-1.0.0-1.rockspec"))
-         -- assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/1.0.0-1/lpeg-1.0.0-1.rockspec"))
+         assert.is_true(run.luarocks_bool("download --rockspec lpeg"))
+         assert.is_false(run.luarocks_bool("build --only-sources=\"http://example.com\" lpeg-1.0.0-1.rockspec"))
+         assert.is.falsy(lfs.attributes(testing_paths.testing_sys_tree .. "/lib/luarocks/rocks/lpeg/1.0.0-1/lpeg-1.0.0-1.rockspec"))
 
          assert.is_true(run.luarocks_bool("download --source lpeg"))
          assert.is_true(run.luarocks_bool("build --only-sources=\"http://example.com\" lpeg-1.0.0-1.src.rock"))
@@ -88,9 +88,9 @@ describe("LuaRocks build tests #blackbox #b_build", function()
    end)
 
    -- describe("LuaRocks build - basic builds", function()
-   --    it("LuaRocks build luadoc", function()
-   --       assert.is_true(run.luarocks_bool(test_env.quiet("build luadoc")))
-   --    end)
+      it("LuaRocks build luadoc", function()
+         assert.is_true(run.luarocks_bool(test_env.quiet("build luadoc --verbose")))
+      end)
       
    --    it("LuaRocks build luacov diff version", function()
    --       assert.is_true(run.luarocks_bool("build luacov 0.11.0-1"))
