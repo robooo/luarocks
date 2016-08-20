@@ -17,17 +17,9 @@ ARGUMENTS
    noreset        Don't reset environment after each test
    clean          Remove existing testing environment.
    travis         Add if running on TravisCI.
+   appveyor       Add if running on Appveyor.
    os=<type>      Set OS ("linux", "osx", or "windows").
 ]]
-
-function print(...)
-   local out = {}
-   for i = 1, select("#", ...) do
-      local arg = select(i, ...)
-      table.insert(out, tostring(arg))
-   end
-   io.stderr:write(table.concat(out, "\t").."\n")
-end
 
 local function help()
    print(help_message)
@@ -43,20 +35,6 @@ end
 
 local function exists(path)
    return lfs.attributes(path, "mode") ~= nil
-end
-
-function test_env.copy(source, destination)
-   local r_source, err = io.open(source, "r")
-   local r_destination, err = io.open(destination, "w")
-
-   while true do
-      local block = r_source:read(8192)
-      if not block then break end
-      r_destination:write(block)
-   end
-
-   r_source:close()
-   r_destination:close()
 end
 
 --- Quote argument for shell processing. Fixes paths on Windows.
@@ -91,6 +69,20 @@ function test_env.quiet(command)
    else
       return command
    end
+end
+
+function test_env.copy(source, destination)
+   local r_source, err = io.open(source, "r")
+   local r_destination, err = io.open(destination, "w")
+
+   while true do
+      local block = r_source:read(8192)
+      if not block then break end
+      r_destination:write(block)
+   end
+
+   r_source:close()
+   r_destination:close()
 end
 
 --- Helper function for execute_bool and execute_output
@@ -215,11 +207,6 @@ function test_env.remove_dir(path)
       end
    end
    lfs.rmdir(path)
-   -- if test_env.TEST_TARGET_OS == "windows" then
-   --    os.execute("rd /s /q " .. Q(path))
-   -- else
-   --    os.remove(path)
-   -- end
 end
 
 --- Remove subdirectories of a directory that match a pattern
@@ -498,7 +485,6 @@ function test_env.setup_specs(extra_rocks)
             execute_bool("ssh-keyscan localhost >> ~/.ssh/known_hosts")
          end
       end
-      print("BEFORE MAIN")
 
       test_env.main()
       package.path = test_env.env_variables.LUA_PATH
@@ -643,11 +629,11 @@ local function install_luarocks(install_env_vars)
    local testing_paths = test_env.testing_paths
    title("Installing LuaRocks")
    if test_env.TEST_TARGET_OS == "windows" then
-      if test_env.LUA_V then
-         assert(execute_bool("install.bat /LUA " .. testing_paths.luadir .. " /LV " .. test_env.LUA_V .. " /P " .. testing_paths.testing_lrprefix .. " /NOREG /NOADMIN /F /Q /CONFIG " .. testing_paths.testing_lrprefix .. "/etc/luarocks", false, install_env_vars))
-      else
+      -- if test_env.LUA_V then
+         -- assert(execute_bool("install.bat /LUA " .. testing_paths.luadir .. " /LV " .. test_env.LUA_V .. " /P " .. testing_paths.testing_lrprefix .. " /NOREG /NOADMIN /F /Q /CONFIG " .. testing_paths.testing_lrprefix .. "/etc/luarocks", false, install_env_vars))
+      -- else
          assert(execute_bool("install.bat /LUA " .. testing_paths.luadir .. " /P " .. testing_paths.testing_lrprefix .. " /NOREG /NOADMIN /F /Q /CONFIG " .. testing_paths.testing_lrprefix .. "/etc/luarocks", false, install_env_vars))
-      end
+      -- end
       assert(execute_bool(testing_paths.win_tools .. "/cp " .. testing_paths.testing_lrprefix .. "/lua/luarocks/site_config* " .. testing_paths.src_dir .. "/luarocks/site_config.lua"))
    else
       local configure_cmd = "./configure --with-lua=" .. testing_paths.luadir .. " --prefix=" .. testing_paths.testing_lrprefix
@@ -670,7 +656,6 @@ function test_env.main()
 
    lfs.mkdir(testing_paths.testing_cache)
    lfs.mkdir(testing_paths.luarocks_tmp)
-      print("BEFORE CREATE CONFIGS")
 
    create_configs()
 
@@ -679,7 +664,7 @@ function test_env.main()
       LUA_PATH,
       LUA_CPATH
    }
-print("BEFORE install_luarocks")
+
    install_luarocks(install_env_vars)
 
    -- Preparation of rocks for building environment
