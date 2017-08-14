@@ -7,8 +7,10 @@ local env_variables = test_env.env_variables
 test_env.unload_luarocks()
 
 local extra_rocks = {
+   "/luasec-0.5-2.src.rock",
    "/luasocket-3.0rc1-2.src.rock",
    "/luasocket-3.0rc1-2.rockspec",
+   "/lpeg-0.12-1.src.rock",
    "/lxsh-0.8.6-2.src.rock",
    "/lxsh-0.8.6-2.rockspec"
 }
@@ -23,6 +25,16 @@ describe("LuaRocks make tests #blackbox #b_make", function()
       lfs.chdir("test")
       assert.is_false(run.luarocks_bool("make"))
       lfs.chdir(testing_paths.luarocks_dir)
+   end)
+
+   it("LuaRocks make static library of luasec #unix", function()
+      assert.is_true(run.luarocks_bool("download luasec 0.5-2"))
+      assert.is_true(run.luarocks_bool("unpack luasec-0.5-2.src.rock"))
+      lfs.chdir("luasec-0.5-2/luasec/")
+      assert.is_true(run.luarocks_bool("make --static luasec-0.5-2.rockspec " .. test_env.OPENSSL_DIRS))
+      assert.is.not_nil(lfs.attributes("luarocks-luasec.a").size)
+      lfs.chdir(testing_paths.luarocks_dir)
+      test_env.remove_dir("luasec-0.5-2")
    end)
 
    it("LuaRocks make with rockspec", function()
